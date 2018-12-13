@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "887636064650",
+    "firebase_url": "https://moneyplanner-6e4ea.firebaseio.com",
+    "project_id": "moneyplanner-6e4ea",
+    "storage_bucket": "moneyplanner-6e4ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887636064650:android:9f887410b6617fe3",
+        "android_client_info": {
+          "package_name": "com.example.parkjunghun.moneyplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887636064650-ao3aanmddcnr01lh5at9vc673gvnn59i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkjunghun.moneyplanner",
+            "certificate_hash": "c5301594313dec69962ff86800ae9b3a3e1d3df9"
+          }
+        },
+        {
+          "client_id": "887636064650-vr1ljvk5s81das61vpq2mlqm74gkmr1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB74S83_CiDqwlKTM5VfgHNXFuePDGQ-Ww"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887636064650-vr1ljvk5s81das61vpq2mlqm74gkmr1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

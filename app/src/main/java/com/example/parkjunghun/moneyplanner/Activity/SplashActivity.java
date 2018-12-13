@@ -1,4 +1,4 @@
-package com.example.parkjunghun.moneyplanner;
+package com.example.parkjunghun.moneyplanner.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;

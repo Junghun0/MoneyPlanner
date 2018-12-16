@@ -38,13 +38,12 @@ public class First_Fragment extends Fragment {
     @BindView(R.id.compactcalendar_view)
     CompactCalendarView compactCalendarView;
 
+
     private ActionBar toolbar;
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("yyyy - MMM", Locale.getDefault());
     private boolean shouldShow = false;
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

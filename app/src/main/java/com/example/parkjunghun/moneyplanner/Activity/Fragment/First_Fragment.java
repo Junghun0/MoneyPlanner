@@ -14,9 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.example.parkjunghun.moneyplanner.Activity.Util.CalendarEvent;
+import com.example.parkjunghun.moneyplanner.Activity.Util.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +47,9 @@ public class First_Fragment extends Fragment {
     private ActionBar toolbar;
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.getDefault());
-    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("yyyy - MMM", Locale.getDefault());
+    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("M", Locale.getDefault());
+    private SimpleDateFormat dateFormatForYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+
     private boolean shouldShow = false;
     @Nullable
     @Override
@@ -65,12 +72,10 @@ public class First_Fragment extends Fragment {
         compactCalendarView.displayOtherMonthDays(false);
 
         toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        toolbar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                toolbar.setTitle(dateFormatForMonth.format(dateClicked));
                 List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
                 Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
                 if (bookingsFromMap != null) {
@@ -80,13 +85,20 @@ public class First_Fragment extends Fragment {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                Log.e(TAG,"scroll..");
-                toolbar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
+                EventBus.getDefault().post(new CalendarScrollEvent(Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)),Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth))));
             }
         });
 
-
         return view;
+    }
+
+    @Subscribe
+    public void moveCalendar(CalendarEvent event){
+        if(event.isChange()){
+            compactCalendarView.scrollRight();
+        }else{
+            compactCalendarView.scrollLeft();
+        }
     }
 
 
@@ -126,5 +138,21 @@ public class First_Fragment extends Fragment {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try{
+            EventBus.getDefault().unregister(this);
+        }catch (Exception e){}
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        try{
+            EventBus.getDefault().register(this);
+        }catch (Exception e){}
     }
 }

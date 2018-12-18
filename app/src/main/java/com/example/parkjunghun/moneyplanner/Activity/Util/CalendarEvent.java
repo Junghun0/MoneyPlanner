@@ -2,7 +2,7 @@ package com.example.parkjunghun.moneyplanner.Activity.Util;
 
 public class CalendarEvent {
 
-    boolean change;
+    private boolean change;
 
     public CalendarEvent(boolean change){
         this.change = change;

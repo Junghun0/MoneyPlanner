@@ -47,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.account)
     ImageButton account_button;
 
+<<<<<<< Updated upstream
     private ActionBar actionBar;
 
+=======
+>>>>>>> Stashed changes
     private ViewPagerAdapter viewPagerAdapter;
 
     Calendar cal;

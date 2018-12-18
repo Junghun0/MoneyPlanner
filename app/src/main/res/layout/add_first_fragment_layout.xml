@@ -2,25 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< Updated upstream
     android:orientation="vertical">
+=======
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:ignore="MissingDefaultResource">
+>>>>>>> Stashed changes
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="금액"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="입금"/>
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="지출"/>
-    </LinearLayout>
+            <EditText
+                android:id="@+id/add_edit1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="금액" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/add_button1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="입금" />
+
+                <Button
+                    android:id="@+id/add_button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="지출" />
+            </LinearLayout>
+
+        </LinearLayout>
 </LinearLayout>

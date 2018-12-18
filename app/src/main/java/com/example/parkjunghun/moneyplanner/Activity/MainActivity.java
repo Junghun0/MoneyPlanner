@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.account)
     ImageButton account_button;
 
-
-    private ActionBar actionBar;
-
     private ViewPagerAdapter viewPagerAdapter;
 
     Calendar cal;
@@ -140,17 +137,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-    /*        right_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ++month;
-                    if(month == 13){ ++year; month = 1; }
-                    if(year != cal.get(Calendar.YEAR)) currentMonth.setText(year+"년 "+month+"월");
-                    else currentMonth.setText(year+"년 " + month + "월");
-                    //EventBus.getDefault().post(new Weekly_Update("true",year,month));
-                }
-            });*/
     @Override
     protected void onResume() {
         super.onResume();

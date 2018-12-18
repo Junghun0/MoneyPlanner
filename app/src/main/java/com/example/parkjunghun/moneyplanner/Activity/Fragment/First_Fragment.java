@@ -43,10 +43,10 @@ public class First_Fragment extends Fragment {
     @BindView(R.id.compactcalendar_view)
     CompactCalendarView compactCalendarView;
 
-
     private ActionBar toolbar;
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.getDefault());
+    private SimpleDateFormat dateFormatOnclick = new SimpleDateFormat("yyyy - MM - dd", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("M", Locale.getDefault());
     private SimpleDateFormat dateFormatForYear = new SimpleDateFormat("yyyy", Locale.getDefault());
 
@@ -77,7 +77,7 @@ public class First_Fragment extends Fragment {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
-                Log.d(TAG, "inside onclick " + dateFormatForDisplaying.format(dateClicked));
+                Log.d(TAG, "clicked date->"+ dateFormatOnclick.format(dateClicked));
                 if (bookingsFromMap != null) {
                     Log.d(TAG, bookingsFromMap.toString());
                 }
@@ -85,7 +85,8 @@ public class First_Fragment extends Fragment {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                EventBus.getDefault().post(new CalendarScrollEvent(Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)),Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth))));
+                EventBus.getDefault().post(new CalendarScrollEvent(Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)),
+                        Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth))));
             }
         });
 

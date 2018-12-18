@@ -17,33 +17,29 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Add_First_Fragment extends Fragment {
-
-    @BindView(R.id.add_button1) Button add_button1;
-    @BindView(R.id.add_button2) Button add_button2;
-    @BindView(R.id.add_edit1) EditText add_edit1;
-
-    public Add_First_Fragment() {
-    }
+public class Add_Second_Fragment extends Fragment {
+    @BindView(R.id.second_add_edittext)
+    EditText second_add_edittext;
+    @BindView(R.id.second_add_info)
+    Button secondbutton1;
+    @BindView(R.id.second_add_info2)
+    Button secondbutton2;
+    @BindView(R.id.second_add_info3)
+    Button secondbutton3;
+    @BindView(R.id.second_add_info4)
+    Button secondbutton4;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_first_fragment_layout, container, false);
+        View view = inflater.inflate(R.layout.add_second_fragment_layout, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
 
-    @OnClick(R.id.add_button1)
-    public void incomeButton(){
+    @OnClick(R.id.second_add_info)
+    public void onClickbutton(){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_view, new Add_Second_Fragment()).addToBackStack(null).commit();
-    }
-
-    @OnClick(R.id.add_button2)
-    public void spendButton(){
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_view, new Add_Second_Fragment()).addToBackStack(null).commit();
+        fragmentManager.beginTransaction().remove(Add_Second_Fragment.this).commit();
     }
 }
-

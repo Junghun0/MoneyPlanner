@@ -14,8 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
-import com.example.parkjunghun.moneyplanner.Activity.Util.CalendarEvent;
-import com.example.parkjunghun.moneyplanner.Activity.Util.CalendarScrollEvent;
+import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
+import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.R;
 
 import org.greenrobot.eventbus.EventBus;

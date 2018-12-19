@@ -1,4 +1,4 @@
-package com.example.parkjunghun.moneyplanner.Activity.Util;
+package com.example.parkjunghun.moneyplanner.Activity.Model;
 
 public class CalendarEvent {
 

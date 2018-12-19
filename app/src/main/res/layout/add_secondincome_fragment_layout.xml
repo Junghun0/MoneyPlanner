@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+    android:id="@+id/add_second_linear"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,7 +15,7 @@
             android:id="@+id/second_add_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="내역" />
+            android:hint="내역/입금버튼눌렀을때" />
 
         <LinearLayout
             android:layout_width="match_parent"

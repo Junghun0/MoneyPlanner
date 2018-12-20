@@ -11,7 +11,7 @@ import com.example.parkjunghun.moneyplanner.Activity.Fragment.Weekly_Calendar_Fr
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private Context context;
+    Context context;
 
     public ViewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);

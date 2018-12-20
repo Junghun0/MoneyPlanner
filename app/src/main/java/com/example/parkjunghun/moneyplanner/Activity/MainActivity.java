@@ -14,9 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
-import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
-import com.example.parkjunghun.moneyplanner.Activity.Util.CalendarEvent;
-import com.example.parkjunghun.moneyplanner.Activity.Util.CalendarScrollEvent;
+import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
+import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.account)
     ImageButton account_button;
 
-
-    private ActionBar actionBar;
-
     private ViewPagerAdapter viewPagerAdapter;
 
     Calendar cal;
@@ -73,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.getTabAt(0).setText("�간");
+        tabLayout.getTabAt(0).setText("간");
         tabLayout.getTabAt(1).setText("주간");
-        tabLayout.getTabAt(2).setText("�간");
-        tabLayout.getTabAt(3).setText("�정");
+        tabLayout.getTabAt(2).setText("간");
+        tabLayout.getTabAt(3).setText("정");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        //�별 �쪽 버튼, �른�버튼
+        //별 쪽 버튼, 른버튼
         left_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,17 +137,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-    /*        right_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ++month;
-                    if(month == 13){ ++year; month = 1; }
-                    if(year != cal.get(Calendar.YEAR)) currentMonth.setText(year+""+month+");
-                    else currentMonth.setText(year+"" + month + ");
-                    //EventBus.getDefault().post(new Weekly_Update("true",year,month));
-                }
-            });*/
     @Override
     protected void onResume() {
         super.onResume();

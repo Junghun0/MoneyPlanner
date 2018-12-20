@@ -1,9 +1,9 @@
-package com.example.parkjunghun.moneyplanner.Activity.Util;
+package com.example.parkjunghun.moneyplanner.Activity.Model;
 
 public class CalendarScrollEvent {
 
-    int year;
-    int month;
+    private int year;
+    private int month;
 
     public CalendarScrollEvent(int year , int month) {
         this.year = year;

@@ -21,6 +21,8 @@ import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclervie
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
+import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update;
+import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -144,11 +146,11 @@ public class First_Fragment extends Fragment {
     }
 
     @Subscribe
-    public void moveCalendar(CalendarEvent event) {
-        if (event.isChange()) {
-            compactCalendarView.scrollRight();
-        } else {
+    public void moveCalendar(Weekly_Update_Event event) {
+        if (event.update.equals("true")) {
             compactCalendarView.scrollLeft();
+        } else {
+            compactCalendarView.scrollRight();
         }
     }
 

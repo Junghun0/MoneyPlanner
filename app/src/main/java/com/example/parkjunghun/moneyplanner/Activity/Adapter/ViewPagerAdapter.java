@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.First_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Fourth_Fragment;
-import com.example.parkjunghun.moneyplanner.Activity.Fragment.Second_Fragment;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.Weekly_Calendar_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 0 :
                 return new First_Fragment();
             case 1:
-                return new Second_Fragment();
+                return new Weekly_Calendar_Fragment();
             case 2:
                 return new Third_Fragment();
             case 3:

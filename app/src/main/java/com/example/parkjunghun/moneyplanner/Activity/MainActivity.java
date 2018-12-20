@@ -10,7 +10,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Calendar;
 
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 if(month == 0){--year; month = 12; }
                 if(year != cal.get(Calendar.YEAR)) currentMonth.setText(year+"년 "+month+"월");
                 else currentMonth.setText(year+"년 " + month + "월");
-                //EventBus.getDefault().post(new Weekly_Update("true",year,month));
+                EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
             }
         });
 
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if(month == 13){ ++year; month = 1; }
                 if(year != cal.get(Calendar.YEAR)) currentMonth.setText(year+"년 "+month+"월");
                 else currentMonth.setText(year+"년 " + month + "월");
-                //EventBus.getDefault().post(new Weekly_Update("true",year,month));
+                EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
             }
         });
     }

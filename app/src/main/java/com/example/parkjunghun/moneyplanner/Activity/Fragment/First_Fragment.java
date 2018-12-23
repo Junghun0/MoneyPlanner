@@ -65,7 +65,6 @@ public class First_Fragment extends Fragment {
     private DetailMoneyInfo detailMoneyInfo;
 
     public static First_Fragment newInstance(String type, String selectDate, int usingMoney) {
-        
         Bundle args = new Bundle();
         args.putString("type",type);
         args.putString("selectDate",selectDate);

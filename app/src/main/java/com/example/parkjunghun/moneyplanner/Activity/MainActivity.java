@@ -63,19 +63,21 @@ public class MainActivity extends AppCompatActivity {
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
-        currentMonth.setText(year + "" + month );
+        currentMonth.setText(year + "" + month + "");
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.getTabAt(0).setText("간");
+        tabLayout.getTabAt(0).setText("월간");
         tabLayout.getTabAt(1).setText("주간");
-        tabLayout.getTabAt(2).setText("간");
-        tabLayout.getTabAt(3).setText("정");
+        tabLayout.getTabAt(2).setText("일간");
+        tabLayout.getTabAt(3).setText("정산");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        getIntent().getStringExtra("test");
+
 
         //별 쪽 버튼, 른버튼
         left_button.setOnClickListener(new View.OnClickListener() {
@@ -86,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     --year;
                     month = 12;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month);
-                else currentMonth.setText(year + "" + month);
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month + "");
+                else currentMonth.setText(year + "" + month + "");
                 EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
                 Log.d(TAG, "year<" + year + "month<" + month);
                 //EventBus.getDefault().post(new CalendarEvent(false));
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
                     ++year;
                     month = 1;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month );
-                else currentMonth.setText(year + "" + month );
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month + "");
+                else currentMonth.setText(year + "" + month + "");
                 EventBus.getDefault().post(new Weekly_Update_Event("false",year,month));
                 Log.d(TAG, "year" + year + "month" + month);
                 //EventBus.getDefault().post(new CalendarEvent(true));
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void scrollEvent(CalendarScrollEvent event) {
         Log.d(TAG, "scroll event..." + event.getMonth());
-        currentMonth.setText(event.getYear() + "" + event.getMonth() );
+        currentMonth.setText(event.getYear() + "" + event.getMonth() + "");
     }
 
     @Override
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("main",""+getIntent().getStringExtra("test"));
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {

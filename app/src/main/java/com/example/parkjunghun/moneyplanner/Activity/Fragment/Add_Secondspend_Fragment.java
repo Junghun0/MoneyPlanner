@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
 import com.example.parkjunghun.moneyplanner.R;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,38 +38,52 @@ public class Add_Secondspend_Fragment extends Fragment {
     LinearLayout second_spendlinear;
     private int usingmoney;
     private String selectDate;
+    private String data_key;
+    private DetailMoneyInfo data;
+    public static Add_Secondspend_Fragment newInstance(String selectDate, int usingmoney) {
 
-    public Add_Secondspend_Fragment(){}
+        Bundle args = new Bundle();
+        args.putString("selectDate",selectDate);
+        args.putInt("usingmoney",usingmoney);
+        Add_Secondspend_Fragment fragment = new Add_Secondspend_Fragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-    @SuppressLint("ValidFragment")
-    public Add_Secondspend_Fragment(String selectDate, int usingmoney){
-        this.selectDate = selectDate;
-        this.usingmoney = usingmoney;
+    public Add_Secondspend_Fragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_secondspend_fragment, container ,false);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.add_secondspend_fragment, container, false);
+        ButterKnife.bind(this, view);
+        data_key = FirebaseDatabase.getInstance().getReference().push().getKey();
+
+        if(getArguments() != null){
+            selectDate = getArguments().getString("selectDate");
+            usingmoney = getArguments().getInt("usingmoney");
+        }
+
+
 
         second_spend_edittext.setFocusableInTouchMode(true);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
 
-        Log.d(TAG,""+selectDate+","+usingmoney);
+        Log.d(TAG, "" + selectDate + "," + usingmoney);
         return view;
     }
 
     @OnClick(R.id.second_spendlinear)
-    public void hideKeyboard(){
-        inputMethodManager.hideSoftInputFromWindow(second_spend_edittext.getWindowToken(),0);
+    public void hideKeyboard() {
+        inputMethodManager.hideSoftInputFromWindow(second_spend_edittext.getWindowToken(), 0);
     }
 
     @OnClick(R.id.second_spend_info)
-    public void onClickspendInfo(){
-
+    public void onClickspendInfo() {
+        data = new DetailMoneyInfo(data_key,"지출",selectDate,usingmoney);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.main_view, First_Fragment.newInstance("지출",selectDate,usingmoney)).addToBackStack(null).commit();
-        inputMethodManager.hideSoftInputFromWindow(second_spend_edittext.getWindowToken(),0);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
     }
 }

@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton account_button;
 
     private ViewPagerAdapter viewPagerAdapter;
-
+    private Third_Fragment third_fragment;
     Calendar cal;
     int month;
     int year;
@@ -63,19 +64,51 @@ public class MainActivity extends AppCompatActivity {
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
-        currentMonth.setText(year + "" + month );
+        currentMonth.setText(year + "년 " + month +"월");
 
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
+        third_fragment = new Third_Fragment();
+
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this,third_fragment);
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        //앱 키자마자 4개의 탭 미리 로딩해주는 함수
+        viewPager.setOffscreenPageLimit(4);
+
         tabLayout.getTabAt(0).setText("간");
         tabLayout.getTabAt(1).setText("주간");
-        tabLayout.getTabAt(2).setText("간");
+        tabLayout.getTabAt(2).setText("일간");
         tabLayout.getTabAt(3).setText("정");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        //viewPager 가 바뀔때 발생하는 리스너
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if(i == 2){
+                    String days[] = currentMonth.getText().toString().split(" ");
+                    //Log.e("Third_Fragment",days[0] + " " + days[1]);
+                    String year[] = days[0].split("년");
+                    String day[] = days[1].split("월");
+                    //Log.e("Third_Fragment",year[0] + " ㅇ " + day[0]);
+                    third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false);
+                    //Log.e("Third_Fragment",currentMonth.getText().toString());
+                    //여기다 이제 년 월 받아서 Date_update()함수 호출!;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         //별 쪽 버튼, 른버튼
         left_button.setOnClickListener(new View.OnClickListener() {
@@ -86,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     --year;
                     month = 12;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month);
-                else currentMonth.setText(year + "" + month);
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "년 " + month +"월");
+                else currentMonth.setText(year + "년 " + month +"월");
                 EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
                 Log.d(TAG, "year<" + year + "month<" + month);
                 //EventBus.getDefault().post(new CalendarEvent(false));
@@ -102,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
                     ++year;
                     month = 1;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month );
-                else currentMonth.setText(year + "" + month );
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "년 " + month +"월");
+                else currentMonth.setText(year + "년 " + month +"월");
                 EventBus.getDefault().post(new Weekly_Update_Event("false",year,month));
                 Log.d(TAG, "year" + year + "month" + month);
                 //EventBus.getDefault().post(new CalendarEvent(true));
@@ -114,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void scrollEvent(CalendarScrollEvent event) {
         Log.d(TAG, "scroll event..." + event.getMonth());
-        currentMonth.setText(event.getYear() + "" + event.getMonth() );
+        currentMonth.setText(event.getYear() + "년 " + event.getMonth()+"월" );
     }
 
     @Override

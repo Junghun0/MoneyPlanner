@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "887636064650-k5cv9tsnidg11ra8nc0bo1n1hfrgkik8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parkjunghun.moneyplanner",
+            "certificate_hash": "97339366f6c4ad85d1fd4c5d7f8f899ff3a53eec"
+          }
+        },
+        {
           "client_id": "887636064650-vr1ljvk5s81das61vpq2mlqm74gkmr1g.apps.googleusercontent.com",
           "client_type": 3
         }

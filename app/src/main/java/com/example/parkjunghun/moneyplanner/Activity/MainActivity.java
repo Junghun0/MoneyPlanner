@@ -1,4 +1,4 @@
-package com.example.parkjunghun.moneyplanner.Activity;
+﻿package com.example.parkjunghun.moneyplanner.Activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
-        currentMonth.setText(year + "년 " + month +"월");
+        currentMonth.setText(year + "" + month + "");
 
         third_fragment = new Third_Fragment();
 
@@ -79,9 +79,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setText("간");
         tabLayout.getTabAt(1).setText("주간");
         tabLayout.getTabAt(2).setText("일간");
-        tabLayout.getTabAt(3).setText("정");
+        tabLayout.getTabAt(3).setText("정산");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        getIntent().getStringExtra("test");
+
 
         //viewPager 가 바뀔때 발생하는 리스너
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -174,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("main",""+getIntent().getStringExtra("test"));
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {

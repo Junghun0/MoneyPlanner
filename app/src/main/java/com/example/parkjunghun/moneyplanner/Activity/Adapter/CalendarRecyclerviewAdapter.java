@@ -1,85 +1,109 @@
 package com.example.parkjunghun.moneyplanner.Activity.Adapter;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.parkjunghun.moneyplanner.Activity.DetailActivity;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.First_Fragment;
+import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
 import com.example.parkjunghun.moneyplanner.R;
 
 import java.util.ArrayList;
 
 
 public class CalendarRecyclerviewAdapter extends RecyclerView.Adapter<CalendarRecyclerviewAdapter.ViewHolder> {
-    First_Fragment context;
-    private ArrayList<String> arrayList;
+    private First_Fragment context;
+    private ArrayList<DetailMoneyInfo> dataList;
 
-    public CalendarRecyclerviewAdapter(First_Fragment first_fragment) {
-        this.context = first_fragment;
-        arrayList = new ArrayList<>();
+    public CalendarRecyclerviewAdapter(First_Fragment context) {
+        this.context = context;
+        dataList = new ArrayList<>();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView calendar_info_textview;
         private TextView calendar_dayinfo_textview;
         private ImageView calendar_info_imgview;
         private CardView calendar_cardview;
+        private ViewHolder mviewholder;
 
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             calendar_info_textview = (TextView) itemView.findViewById(R.id.calendar_info_textview);
             calendar_dayinfo_textview = (TextView) itemView.findViewById(R.id.calendar_dayinfo_textview);
             calendar_info_imgview = (ImageView) itemView.findViewById(R.id.calendar_info_imgview);
             calendar_cardview = (CardView) itemView.findViewById(R.id.calendar_cardview);
+            calendar_cardview.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context.getContext(), DetailActivity.class);
+            intent.putExtra("data", dataList.get(getLayoutPosition()));
+            intent.putExtra("index", getLayoutPosition());
+            Log.e("database","recycler onclick->"+dataList.get(getLayoutPosition()));
+            context.startActivity(intent);
         }
     }
 
-
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.calendar_recyclerview, viewGroup, false);
+    public CalendarRecyclerviewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View view = inflater.inflate(R.layout.calendar_recyclerview, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-
-        if(arrayList.isEmpty()){
-
+        DetailMoneyInfo detailMoneyInfo = dataList.get(i);
+        viewHolder.calendar_dayinfo_textview.setText(detailMoneyInfo.getSelectDate());
+        viewHolder.calendar_info_textview.setText(String.valueOf(detailMoneyInfo.getUsingMoney()));
+        if(detailMoneyInfo.getType().equals("수입")){
+            viewHolder.calendar_info_textview.setTextColor(Color.GREEN);
         }else{
-            viewHolder.calendar_dayinfo_textview.setText(arrayList.get(i));
-            viewHolder.calendar_info_textview.setText(arrayList.get(i));
+            viewHolder.calendar_info_textview.setTextColor(Color.RED);
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return dataList.size();
     }
 
-    public void addItem(String data) {
-        //notifyItemInserted(arrayList.size()-1);
-        arrayList.add(data);
-        notifyItemInserted(arrayList.size() - 1);
+    public void addItem(DetailMoneyInfo data) {
+        dataList.add(data);
+        notifyItemInserted(dataList.size() - 1);
         notifyDataSetChanged();
     }
 
-    public void setItem(ArrayList<String> data) {
-        this.arrayList = data;
+    public void setItem(ArrayList<DetailMoneyInfo> data) {
+        this.dataList = data;
         notifyDataSetChanged();
     }
 
-    public void subItem(ArrayList<String> data) {
-        this.arrayList = data;
+    public void subItem(ArrayList<DetailMoneyInfo> data) {
+        this.dataList = data;
         data.remove(data.size() - 1);
         notifyDataSetChanged();
     }
+
+    public void clearItem(ArrayList<DetailMoneyInfo> data){
+        this.dataList = data;
+        Log.e("database","adapter->clearItem");
+        data.clear();
+        notifyDataSetChanged();
+    }
+
 
 }

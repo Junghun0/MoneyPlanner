@@ -1,4 +1,4 @@
-﻿package com.example.parkjunghun.moneyplanner.Activity;
+package com.example.parkjunghun.moneyplanner.Activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
-import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.R;
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
-        currentMonth.setText(year + "" + month + "");
+        currentMonth.setText(year + "년 " + month + "월");
 
         third_fragment = new Third_Fragment();
 
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         //앱 키자마자 4개의 탭 미리 로딩해주는 함수
         viewPager.setOffscreenPageLimit(4);
 
-        tabLayout.getTabAt(0).setText("간");
+        tabLayout.getTabAt(0).setText("월간");
         tabLayout.getTabAt(1).setText("주간");
         tabLayout.getTabAt(2).setText("일간");
         tabLayout.getTabAt(3).setText("정산");

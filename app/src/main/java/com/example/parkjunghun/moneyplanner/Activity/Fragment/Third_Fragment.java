@@ -169,21 +169,7 @@ public class Third_Fragment extends Fragment {
                 startC.set(Calendar.MONTH,month-1);
                 startC.set(Calendar.DAY_OF_MONTH,1);
             }
-            //파이어베이스 접근 하기!
-            databaseReference.child("using_info").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        DetailMoneyInfo detailMoneyInfo = postSnapshot.getValue(DetailMoneyInfo.class);
-                        Log.e("asdasd",detailMoneyInfo.getSelectDate() + " " +detailMoneyInfo.getUsingMoney());
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
  /*           Calendar endC = Calendar.getInstance();
             endC.set(Calendar.YEAR,year +10);
             Log.e("Third_Fragment",startC.get(Calendar.MONTH)+1 + " " + startC.get(Calendar.DAY_OF_MONTH) + " " + startC.get(Calendar.YEAR));

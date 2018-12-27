@@ -1,4 +1,3 @@
-﻿//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 
 android {

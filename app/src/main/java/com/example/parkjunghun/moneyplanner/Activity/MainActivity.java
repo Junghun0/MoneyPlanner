@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
+import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
-        currentMonth.setText(year + "" + month + ");
+        currentMonth.setText(year + "" + month);
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
@@ -85,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
                     --year;
                     month = 12;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month + ");
-                else currentMonth.setText(year + "" + month + ");
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month);
+                else currentMonth.setText(year + "" + month);
                 EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
                 Log.d(TAG, "year<" + year + "month<" + month);
                 EventBus.getDefault().post(new CalendarEvent(false));
@@ -101,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
                     ++year;
                     month = 1;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month + ");
-                else currentMonth.setText(year + "" + month + ");
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month);
+                else currentMonth.setText(year + "" + month);
                 EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
                 Log.d(TAG, "year" + year + "month" + month);
                 EventBus.getDefault().post(new CalendarEvent(true));
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void scrollEvent(CalendarScrollEvent event) {
         Log.d(TAG, "scroll event..." + event.getMonth());
-        currentMonth.setText(event.getYear() + "" + event.getMonth() + ");
+        currentMonth.setText(event.getYear() + "" + event.getMonth());
     }
 
     @Override

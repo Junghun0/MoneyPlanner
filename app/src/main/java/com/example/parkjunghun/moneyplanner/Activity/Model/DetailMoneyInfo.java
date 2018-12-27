@@ -1,6 +1,12 @@
 package com.example.parkjunghun.moneyplanner.Activity.Model;
 
-public class DetailMoneyInfo {
+
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.io.Serializable;
+
+@IgnoreExtraProperties
+public class DetailMoneyInfo implements Serializable {
 
     private String key;
     private String type;

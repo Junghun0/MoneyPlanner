@@ -7,6 +7,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
+        android:background="#ffffff"
         android:layout_height="wrap_content">
 
         <devs.mulham.horizontalcalendar.HorizontalCalendarView
@@ -14,18 +15,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            app:textColorSelected="#000000">
-        </devs.mulham.horizontalcalendar.HorizontalCalendarView>
+            app:textColorSelected="#000000"></devs.mulham.horizontalcalendar.HorizontalCalendarView>
+
     </android.support.design.widget.AppBarLayout>
 
 
     <LinearLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/appBar"
-        android:background="#ffffff"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,52 +41,50 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_weight="0.5"
-                    android:text="수입" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="수입   :" />
 
                 <TextView
-                    android:id="@+id/sua"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="0.5"
+                    android:id="@+id/IncomeMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.4"
                     android:gravity="right"
-                    android:text="asdasd"
+                    android:text="4535원"
                     android:textColor="#37ff00"
                     android:textSize="25dp" />
-
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textsd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_weight="0.5"
-                    android:text="지출" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:text="지출   :"
+                    android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/su"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
+                    android:id="@+id/OutlayMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="right"
-                    android:text="aokok"
+                    android:text="298원"
                     android:textColor="#ec4242"
                     android:textSize="25dp" />
-
-
             </LinearLayout>
 
         </LinearLayout>
@@ -96,10 +95,176 @@
             android:layout_weight="0.5"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="현금   :" />
+
+                <TextView
+                    android:id="@+id/CashMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="00"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="0.6"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:text="카드   :" />
+
+                <TextView
+                    android:id="@+id/CardMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.4"
+                    android:gravity="center"
+                    android:text="00"
+                    android:textColor="#000000"
+                    android:textSize="20dp" />
+            </LinearLayout>
 
         </LinearLayout>
-
 
     </LinearLayout>
 
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_below="@id/linearLayout"
+    android:weightSum="1"
+    >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="0.5"
+            android:id="@+id/InLinearLayout"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="들어온 돈  "
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/InChange"
+                    android:text="Edit"
+                    android:layout_weight="0.3"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/InRecyclerview"
+                >
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="나간 돈  "
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/OutChange"
+                    android:text="Edit"
+                    android:layout_weight="0.3"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/OutRecyclerview"
+                >
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+</LinearLayout>
 </RelativeLayout>

@@ -12,10 +12,12 @@ import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     Context context;
+    private Third_Fragment third_fragment;
 
-    public ViewPagerAdapter(FragmentManager fm, Context context) {
+    public ViewPagerAdapter(FragmentManager fm, Context context,Third_Fragment third_fragment) {
         super(fm);
         this.context = context;
+        this.third_fragment = third_fragment;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new Weekly_Calendar_Fragment();
             case 2:
-                return new Third_Fragment();
+                return third_fragment;
             case 3:
                 return new Fourth_Fragment();
 

@@ -60,12 +60,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Log.e("first Main!!!","onCreate...");
-
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
-        currentMonth.setText(year + "" + month);
+        currentMonth.setText(year + "년 " + month + "월");
 
         third_fragment = new Third_Fragment();
 
@@ -74,19 +72,19 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        //자마자 4개의 미리 로딩주수
+        //�자마자 4개의 미리 로딩�주�수
         viewPager.setOffscreenPageLimit(4);
 
-        tabLayout.getTabAt(0).setText("간");
+        tabLayout.getTabAt(0).setText("월간");
         tabLayout.getTabAt(1).setText("주간");
-        tabLayout.getTabAt(2).setText("간");
-        tabLayout.getTabAt(3).setText("산");
+        tabLayout.getTabAt(2).setText("일간");
+        tabLayout.getTabAt(3).setText("결산");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        //getIntent().getStringExtra("test");
+        getIntent().getStringExtra("test");
 
 
-        //viewPager 가 바뀔때 발생는 리스
+        //viewPager 가 바뀔때 발생�는 리스
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -98,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 if(i == 2){
                     String days[] = currentMonth.getText().toString().split(" ");
                     //Log.e("Third_Fragment",days[0] + " " + days[1]);
-                    String year[] = days[0].split(");
-                    String day[] = days[1].split(");
+                    String year[] = days[0].split("년");
+                    String day[] = days[1].split("월");
                     //Log.e("Third_Fragment",year[0] + " " + day[0]);
                     third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false);
                     //Log.e("Third_Fragment",currentMonth.getText().toString());
-                    //기제 받아Date_update()수 출!;
+                    //�기�제 받아Date_update()�수 �출!;
                 }
             }
 
@@ -113,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //버튼, 른버
+        //��버튼, 른버
         left_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
                     --year;
                     month = 12;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month);
-                else currentMonth.setText(year + "" + month);
-                EventBus.getDefault().post(new Weekly_Update_Event("true", year, month));
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "년 " + month + "월");
+                else currentMonth.setText(year + "년 " + month + "월");
+                EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
                 Log.d(TAG, "year<" + year + "month<" + month);
                 //EventBus.getDefault().post(new CalendarEvent(false));
             }
@@ -138,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
                     ++year;
                     month = 1;
                 }
-                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month);
-                else currentMonth.setText(year + "" + month);
-                EventBus.getDefault().post(new Weekly_Update_Event("false", year, month));
+                if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "년 " + month + "월");
+                else currentMonth.setText(year + "년 " + month + "월");
+                EventBus.getDefault().post(new Weekly_Update_Event("false",year,month));
                 Log.d(TAG, "year" + year + "month" + month);
                 //EventBus.getDefault().post(new CalendarEvent(true));
             }
@@ -150,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void scrollEvent(CalendarScrollEvent event) {
         Log.d(TAG, "scroll event..." + event.getMonth());
-        currentMonth.setText(event.getYear() + "" + event.getMonth());
+        currentMonth.setText(event.getYear() + "년 " + event.getMonth() + "월");
     }
 
     @Override
@@ -177,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("first Main!!!","onResume....");
-
+        Log.d("main",""+getIntent().getStringExtra("test"));
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
@@ -189,11 +186,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("first Main!!!","onDestroy....");
         try {
             EventBus.getDefault().unregister(this);
         } catch (Exception e) {
 
         }
+
     }
 }

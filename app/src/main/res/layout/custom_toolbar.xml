@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/colorPrimaryDark">
+        android:background="#7c6054">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="#7c6054"
                     android:src="@drawable/ic_equalizer_black_24dp" />
 
             </LinearLayout>
@@ -41,14 +41,14 @@
                     android:id="@+id/before_month"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="#7c6054"
                     android:src="@drawable/ic_chevron_left_black_24dp" />
 
                 <TextView
                     android:id="@+id/current_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="#f8f2d8"
                     android:textSize="20sp" />
 
 
@@ -56,7 +56,7 @@
                     android:id="@+id/after_month"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="#7c6054"
                     android:src="@drawable/ic_chevron_right_black_24dp" />
 
             </LinearLayout>
@@ -73,7 +73,7 @@
                     android:id="@+id/messages"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="#7c6054"
                     android:src="@drawable/ic_email_black_24dp" />
 
                 <ImageButton
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="#7c6054"
                     android:src="@drawable/ic_search_black_24dp" />
 
             </LinearLayout>

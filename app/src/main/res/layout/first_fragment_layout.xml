@@ -26,14 +26,14 @@
                     android:id="@+id/compactcalendar_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:compactCalendarBackgroundColor="#c9ffd0"
+                    app:compactCalendarBackgroundColor="#c6c69c"
                     app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
                     app:compactCalendarCurrentDayIndicatorStyle="fill_large_indicator"
-                    app:compactCalendarCurrentSelectedDayBackgroundColor="#ffbd5f5f"
+                    app:compactCalendarCurrentSelectedDayBackgroundColor="#c9766f"
                     app:compactCalendarEventIndicatorStyle="small_indicator"
                     app:compactCalendarOtherMonthDaysTextColor="#534c4c"
                     app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="true"
-                    app:compactCalendarTextColor="#000000"
+                    app:compactCalendarTextColor="#707070"
                     app:compactCalendarTextSize="12sp" />
 
             </LinearLayout>

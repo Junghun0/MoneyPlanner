@@ -59,7 +59,7 @@ public class DatabaseManager {
         usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.i("database", "데이터변경사항잇음");
+                Log.i("database first intent123", "데이터변경사항잇음");
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     DetailMoneyInfo detailMoneyInfo = data.getValue(DetailMoneyInfo.class);
                     if (detailMoneyInfo != null) {
@@ -91,6 +91,29 @@ public class DatabaseManager {
                 }
                 Log.e("database","데이터삭제 불림..");
                 usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).child(childKeyvalue).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("database", "" + childKeyvalue);
+    }
+
+    //데이터중에 key값을 받아서 해당하는 데이터 삭제
+    public void deleteMoneyInfo2(final CalendarRecyclerviewAdapter adapter, final String keyvalue, String date, final int position) {
+        final String[] childkey = date.split("-");
+
+        usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).orderByChild("key").equalTo(keyvalue).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot keyvalue : dataSnapshot.getChildren()) {
+                    childKeyvalue = keyvalue.getKey();
+                }
+                Log.e("database","데이터삭제 불림..");
+                usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).child(childKeyvalue).removeValue();
+                adapter.notifyItemRemoved(position);
             }
 
             @Override

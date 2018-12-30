@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
-import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.R;
@@ -60,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Log.e("first Main!!!","onCreate...");
+
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(3).setText("정산");
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        getIntent().getStringExtra("test");
+        //getIntent().getStringExtra("test");
 
 
         //별 쪽 버튼, 른버튼
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month + "");
                 else currentMonth.setText(year + "" + month + "");
-                EventBus.getDefault().post(new Weekly_Update_Event("true",year,month));
+                EventBus.getDefault().post(new Weekly_Update_Event("true", year, month));
                 Log.d(TAG, "year<" + year + "month<" + month);
                 //EventBus.getDefault().post(new CalendarEvent(false));
             }
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (year != cal.get(Calendar.YEAR)) currentMonth.setText(year + "" + month + "");
                 else currentMonth.setText(year + "" + month + "");
-                EventBus.getDefault().post(new Weekly_Update_Event("false",year,month));
+                EventBus.getDefault().post(new Weekly_Update_Event("false", year, month));
                 Log.d(TAG, "year" + year + "month" + month);
                 //EventBus.getDefault().post(new CalendarEvent(true));
             }
@@ -143,7 +144,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("main",""+getIntent().getStringExtra("test"));
+        Log.e("first Main!!!","onResume....");
+
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
@@ -154,11 +156,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.e("first Main!!!","onDestroy....");
         try {
             EventBus.getDefault().unregister(this);
         } catch (Exception e) {
 
         }
-
     }
 }

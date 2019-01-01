@@ -55,13 +55,12 @@ public class Weekly_Calendar_Fragment extends Fragment {
         weekly_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                chart_Layout = (LinearLayout)view.findViewById(R.id.chart_layout);
-                lineChart = (LineChart)view.findViewById(R.id.chart);
-                if(chart_Layout.getVisibility() == View.GONE){
+                chart_Layout = (LinearLayout) view.findViewById(R.id.chart_layout);
+                lineChart = (LineChart) view.findViewById(R.id.chart);
+                if (chart_Layout.getVisibility() == View.GONE) {
                     chart_Layout.setVisibility(View.VISIBLE);
                     weekly_Adapter.show_Chart(i, lineChart);
-                    //weekly_Adapter.show_Chart(i);
-                } else{
+                } else {
                     chart_Layout.setVisibility(View.GONE);
                 }
             }
@@ -72,15 +71,13 @@ public class Weekly_Calendar_Fragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void weekly_Change_Event(Weekly_Update_Event event) {
-        if (event.update.equals("true")) {
-            weekly_Adapter.removeAll();
+        weekly_Adapter.removeAll();
 
-            function = new Weekly_CalendarFunction();
-            function.sep_Calendar(weekly_Adapter, event.year, event.month);
+        function = new Weekly_CalendarFunction();
+        function.sep_Calendar(weekly_Adapter, event.year, event.month);
 
-            weekly_ListView.setAdapter(weekly_Adapter);
-            weekly_Adapter.notifyDataSetChanged();
-        }
+        weekly_ListView.setAdapter(weekly_Adapter);
+        weekly_Adapter.notifyDataSetChanged();
     }
 
     @Override

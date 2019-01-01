@@ -76,12 +76,12 @@ public class Add_First_Fragment extends Fragment {
         if (add_edit1.getText().toString().equals("")) {
             usingMoney = 0;
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.main_view2, Add_Secondincome_Fragment.newInstance(selectDate, usingMoney)).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_view2, Add_Secondincome_Fragment.newInstance(selectDate, usingMoney)).commit();
             inputMethodManager.hideSoftInputFromWindow(add_edit1.getWindowToken(), 0);
         } else {
             usingMoney = Integer.valueOf(add_edit1.getText().toString());
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.main_view2, Add_Secondincome_Fragment.newInstance(selectDate, usingMoney)).addToBackStack(null).commit();
+            fragmentManager.beginTransaction().replace(R.id.main_view2, Add_Secondincome_Fragment.newInstance(selectDate, usingMoney)).commit();
             inputMethodManager.hideSoftInputFromWindow(add_edit1.getWindowToken(), 0);
         }
 
@@ -94,13 +94,13 @@ public class Add_First_Fragment extends Fragment {
             usingMoney = 0;
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.main_view2, Add_Secondspend_Fragment.newInstance(selectDate, usingMoney)).addToBackStack(null).commit();
+            fragmentTransaction.replace(R.id.main_view2, Add_Secondspend_Fragment.newInstance(selectDate, usingMoney)).commit();
             inputMethodManager.hideSoftInputFromWindow(add_edit1.getWindowToken(), 0);
         } else {
             usingMoney = Integer.valueOf(add_edit1.getText().toString());
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.main_view2, Add_Secondspend_Fragment.newInstance(selectDate, usingMoney)).addToBackStack(null).commit();
+            fragmentTransaction.replace(R.id.main_view2, Add_Secondspend_Fragment.newInstance(selectDate, usingMoney)).commit();
             inputMethodManager.hideSoftInputFromWindow(add_edit1.getWindowToken(), 0);
         }
 

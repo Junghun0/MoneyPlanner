@@ -24,9 +24,9 @@ public class CalendarRecyclerviewAdapter extends RecyclerView.Adapter<CalendarRe
     private First_Fragment context;
     private ArrayList<DetailMoneyInfo> dataList;
 
-    public CalendarRecyclerviewAdapter(First_Fragment context) {
+    public CalendarRecyclerviewAdapter(First_Fragment context, ArrayList<DetailMoneyInfo> dataList) {
         this.context = context;
-        dataList = new ArrayList<>();
+        this.dataList = dataList;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -50,7 +50,7 @@ public class CalendarRecyclerviewAdapter extends RecyclerView.Adapter<CalendarRe
             Intent intent = new Intent(context.getContext(), DetailActivity.class);
             intent.putExtra("data", dataList.get(getLayoutPosition()));
             intent.putExtra("index", getLayoutPosition());
-            Log.e("database","recycler onclick->"+dataList.get(getLayoutPosition()));
+            Log.e("database","recycler onclick->"+getLayoutPosition());
             context.startActivity(intent);
         }
     }
@@ -69,11 +69,10 @@ public class CalendarRecyclerviewAdapter extends RecyclerView.Adapter<CalendarRe
         viewHolder.calendar_dayinfo_textview.setText(detailMoneyInfo.getSelectDate());
         viewHolder.calendar_info_textview.setText(String.valueOf(detailMoneyInfo.getUsingMoney()));
         if(detailMoneyInfo.getType().equals("수입")){
-            viewHolder.calendar_info_textview.setTextColor(Color.GREEN);
+            viewHolder.calendar_info_textview.setTextColor(Color.rgb(0,120,189));
         }else{
-            viewHolder.calendar_info_textview.setTextColor(Color.RED);
+            viewHolder.calendar_info_textview.setTextColor(Color.rgb(223,110,80));
         }
-
     }
 
     @Override
@@ -87,23 +86,23 @@ public class CalendarRecyclerviewAdapter extends RecyclerView.Adapter<CalendarRe
         notifyDataSetChanged();
     }
 
-    public void setItem(ArrayList<DetailMoneyInfo> data) {
-        this.dataList = data;
+    public void setItem(ArrayList<DetailMoneyInfo> dataList) {
+        this.dataList = dataList;
         notifyDataSetChanged();
     }
 
-    public void subItem(ArrayList<DetailMoneyInfo> data) {
-        this.dataList = data;
-        data.remove(data.size() - 1);
+    public void subItem(ArrayList<DetailMoneyInfo> dataList, int index) {
+        this.dataList = dataList;
+        dataList.remove(index);
+        notifyItemRemoved(index);
+        //data.remove(data.size() - 1);
         notifyDataSetChanged();
     }
 
-    public void clearItem(ArrayList<DetailMoneyInfo> data){
-        this.dataList = data;
+    public void clearItem(ArrayList<DetailMoneyInfo> dataList){
+        this.dataList = dataList;
         Log.e("database","adapter->clearItem");
-        data.clear();
+        dataList.clear();
         notifyDataSetChanged();
     }
-
-
 }

@@ -20,12 +20,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclerviewAdapter;
-import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
-import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update;
-import com.example.parkjunghun.moneyplanner.Activity.Util.DatabaseManager;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
+import com.example.parkjunghun.moneyplanner.Activity.Util.DatabaseManager;
 import com.example.parkjunghun.moneyplanner.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -61,7 +59,7 @@ public class First_Fragment extends Fragment {
     private SimpleDateFormat dateFormatOnclick = new SimpleDateFormat("yyyy-MM-d", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("M", Locale.getDefault());
     private SimpleDateFormat dateFormatForYear = new SimpleDateFormat("yyyy", Locale.getDefault());
-    private ArrayList<DetailMoneyInfo> testarray = new ArrayList<>();
+    private ArrayList<DetailMoneyInfo> dataList = new ArrayList<>();
 
     private boolean shouldShow = false;
     private String selectedDate;
@@ -82,18 +80,15 @@ public class First_Fragment extends Fragment {
 
         Log.i(TAG, "on activitycreated");
 
-        adapter = new CalendarRecyclerviewAdapter(this);
+        adapter = new CalendarRecyclerviewAdapter(this, dataList);
         main_recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         main_recyclerview.setAdapter(adapter);
 
         if (getArguments() != null) {
+            //디비에 넣기
+            Log.e("first","getarguments not null......");
             data = (DetailMoneyInfo)getArguments().getSerializable("data");
-
             DatabaseManager.getInstance().setMoneyInfo(data);
-            testarray.add(data);
-            adapter.setItem(testarray);
-
-            testarray.clear();
         }
 
         final List<String> mutableBookings = new ArrayList<>();
@@ -126,8 +121,6 @@ public class First_Fragment extends Fragment {
                 }
 
                 DatabaseManager.getInstance().getMoneyInfo(adapter, dateFormatOnclick.format(dateClicked));
-                testarray.clear();
-                adapter.setItem(testarray);
 
                 //+버튼 눌럿을때 선택된 날짜 던져줌
                 selectedDate = dateFormatOnclick.format(dateClicked);
@@ -157,7 +150,7 @@ public class First_Fragment extends Fragment {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.main_view2, Add_First_Fragment.newInstance(selectedDate)).addToBackStack(null).commit();
-            adapter.clearItem(testarray);
+            adapter.clearItem(dataList);
         } else {
             Toast.makeText(getActivity(), "날짜를 선택해주세요", Toast.LENGTH_SHORT).show();
         }
@@ -210,7 +203,6 @@ public class First_Fragment extends Fragment {
 
 
             if(data != null) {
-
 
                 Log.i(TAG, "addEvents method...");
 
@@ -287,11 +279,15 @@ public class First_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onresume");
+        Log.i(TAG, "onresume datalist size"+dataList.size());
         if (getArguments() != null) {
-            Log.i(TAG, "arguments not null..on resume");
-            adapter.clearItem(testarray);
             DatabaseManager.getInstance().getMoneyInfo(adapter, data.getSelectDate());
+        }
+
+        if(getActivity().getIntent().getExtras() != null && getArguments() == null){
+            getActivity().getIntent().getIntExtra("index",0);
+            Log.e(TAG,"getintetn->>"+getActivity().getIntent().getIntExtra("index",0));
+            DatabaseManager.getInstance().getMoneyInfo(adapter, getActivity().getIntent().getStringExtra("date"));
         }
     }
 
@@ -300,4 +296,5 @@ public class First_Fragment extends Fragment {
         super.onDestroy();
         Log.i(TAG, "ondestroy");
     }
+
 }

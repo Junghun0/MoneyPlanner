@@ -181,9 +181,6 @@ public class DatabaseManager {
                     OutAdapter.notifyDataSetChanged();
                     Income.setText(numberFormat.format(InSum) + "원");
                     Outlay.setText(numberFormat.format(OutSum) + "원");
-                    /*horizontalCalendar.refresh();
-                    scheduleRecyclerviewAdapter.setItem(detailMoneyInfoList);
-                    scheduleRecyclerviewAdapter.notifyDataSetChanged();*/
                 }
 
                 @Override
@@ -191,4 +188,10 @@ public class DatabaseManager {
                 }
             });
     }
+
+    //삭제버튼 누를시 DB 삭제
+    public void deleteScheduleMoneyInfo(){
+
+    }
+
 }

@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,10 +49,9 @@ public class Third_Fragment extends Fragment {
     private TextView textView;
     private ArrayList<DetailMoneyInfo> InviewItemArrayList  = new ArrayList<>();
     private ArrayList<DetailMoneyInfo> OutviewItemArrayList  = new ArrayList<>();
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
-    private String key;
     private DatabaseManager databaseManager;
+    private int Incheck = 0;
+    private int Outcheck = 0;
     @BindView(R.id.IncomeMoney)
     TextView InMoney;
     @BindView(R.id.OutlayMoney)
@@ -81,9 +81,6 @@ public class Third_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.third_fragment_layout, container, false);
         ButterKnife.bind(this, view);
-        /*key = FirebaseInstanceId.getInstance().getToken();
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("using_info");*/
         textView = (TextView)getActivity().findViewById(R.id.current_month);
         Calendar start = Calendar.getInstance();
         start.add(Calendar.YEAR,-10);
@@ -103,19 +100,20 @@ public class Third_Fragment extends Fragment {
                 .colorTextBottom(Color.WHITE,Color.WHITE)
                 .end();
         horizontalCalendar = builder.build();
-
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager1 = new LinearLayoutManager(getActivity());
         InRecyclerView.setLayoutManager(layoutManager);
-        Inadapter = new ScheduleRecyclerviewAdapter(InviewItemArrayList);
-        Outadapter = new ScheduleRecyclerviewAdapter(OutviewItemArrayList);
+        Inadapter = new ScheduleRecyclerviewAdapter(this,InviewItemArrayList);
+        Outadapter = new ScheduleRecyclerviewAdapter(this,OutviewItemArrayList);
         InRecyclerView.setAdapter(Inadapter);
         OutRecyclerView.setLayoutManager(layoutManager1);
         OutRecyclerView.setAdapter(Outadapter);
-
+        /*InRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
+        OutRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));*/
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
+                Log.e("asd","asd");
                 //여기에서도 만약 선택된 날짜가 파이어베이스안에 데이터가 있다면 점 색깔 바꿔줘야함!
                 if(date.get(Calendar.DAY_OF_MONTH) > 0){
                     textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
@@ -124,19 +122,26 @@ public class Third_Fragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
 
     @OnClick(R.id.InChange)
     public void OnInChange(){
-        /*Inadapter.isShow(true);
-        Inadapter.notifyDataSetChanged();*/
+        Incheck++;
+        Inadapter.isShow(Incheck);
+        Inadapter.notifyDataSetChanged();
+        if(Incheck == 10)
+            Incheck = 0;
     }
 
     @OnClick(R.id.OutChange)
     public void OnOutChange(){
-
-        Log.e("asd","나도 여기");
+        Outcheck++;
+        Outadapter.isShow(Outcheck);
+        Outadapter.notifyDataSetChanged();
+        if(Outcheck == 10)
+            Outcheck = 0;
     }
 
     //중요한 함수임!

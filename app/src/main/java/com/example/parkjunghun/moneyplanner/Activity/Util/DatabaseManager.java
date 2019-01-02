@@ -1,10 +1,15 @@
 package com.example.parkjunghun.moneyplanner.Activity.Util;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclerviewAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Adapter.ScheduleRecyclerviewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
+import com.example.parkjunghun.moneyplanner.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -14,7 +19,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
 
 public class DatabaseManager {
 
@@ -25,7 +33,14 @@ public class DatabaseManager {
     private String key;
     private String childKeyvalue;
     private ArrayList<DetailMoneyInfo> detailMoneyInfoList = new ArrayList<>();
-    private ArrayList<DetailMoneyInfo> testmanagerarray = new ArrayList<>();
+    private ArrayList<DetailMoneyInfo> InMoneyList = new ArrayList<>();
+    private ArrayList<DetailMoneyInfo> OutMoneyList = new ArrayList<>();
+    private ScheduleRecyclerviewAdapter InAdapter;
+    private ScheduleRecyclerviewAdapter OutAdapter;
+    private HorizontalCalendar horizontalCalendar1;
+    private NumberFormat numberFormat;
+    private TextView Income;
+    private TextView Outlay;
 
     public static DatabaseManager getInstance() {
         return instance;
@@ -122,5 +137,58 @@ public class DatabaseManager {
             }
         });
         Log.d("database", "" + childKeyvalue);
+    }
+
+    //일간 탭 날짜 선택시 DB 데이터 읽기
+    public void getScheduleMoneyInfo(ScheduleRecyclerviewAdapter Inadapter, ScheduleRecyclerviewAdapter Outadapter, String data, HorizontalCalendar horizontalCalendar, View view) {
+        InMoneyList.clear(); OutMoneyList.clear();
+        InAdapter = Inadapter; OutAdapter = Outadapter;
+        InAdapter.notifyDataSetChanged(); OutAdapter.notifyDataSetChanged();
+        horizontalCalendar1 = horizontalCalendar;
+        Income = view.findViewById(R.id.IncomeMoney);
+        Outlay = view.findViewById(R.id.OutlayMoney);
+        String[] days = data.split(" ");
+        numberFormat = NumberFormat.getInstance();
+            usinginfo_databaseReference.child(key).child(days[0]).child(days[1]).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int InSum = 0;
+                    int OutSum = 0;
+                    for (DataSnapshot snot : dataSnapshot.getChildren()) {
+                        DetailMoneyInfo detailMoneyInfo = snot.getValue(DetailMoneyInfo.class);
+                        if(detailMoneyInfo.getType().equals("수입")){
+                            InMoneyList.add(detailMoneyInfo);
+                            InSum += detailMoneyInfo.getUsingMoney();
+                        }
+                        else if(detailMoneyInfo.getType().equals("지출")){
+                            OutMoneyList.add(detailMoneyInfo);
+                            OutSum += detailMoneyInfo.getUsingMoney();
+                        }
+
+                    }
+
+                    if(InMoneyList.size() == 0 && OutMoneyList.size() == 0){
+                        horizontalCalendar1.getConfig().setFormatBottomText(" ");
+                        horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.WHITE);
+                    } else {
+                        horizontalCalendar1.getConfig().setFormatBottomText("●");
+                        horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.RED);
+                    }
+                    horizontalCalendar1.refresh();
+                    InAdapter.setItem(InMoneyList);
+                    InAdapter.notifyDataSetChanged();
+                    OutAdapter.setItem(OutMoneyList);
+                    OutAdapter.notifyDataSetChanged();
+                    Income.setText(numberFormat.format(InSum) + "원");
+                    Outlay.setText(numberFormat.format(OutSum) + "원");
+                    /*horizontalCalendar.refresh();
+                    scheduleRecyclerviewAdapter.setItem(detailMoneyInfoList);
+                    scheduleRecyclerviewAdapter.notifyDataSetChanged();*/
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
     }
 }

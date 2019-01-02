@@ -55,7 +55,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="0.4"
                     android:gravity="right"
-                    android:text="4535원"
                     android:textColor="#37ff00"
                     android:textSize="25dp" />
             </LinearLayout>
@@ -82,7 +81,6 @@
                     android:layout_weight="0.4"
                     android:layout_gravity="center_horizontal"
                     android:gravity="right"
-                    android:text="298원"
                     android:textColor="#ec4242"
                     android:textSize="25dp" />
             </LinearLayout>

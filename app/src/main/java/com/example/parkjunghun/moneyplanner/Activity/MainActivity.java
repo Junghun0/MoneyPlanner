@@ -1,5 +1,6 @@
 package com.example.parkjunghun.moneyplanner.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton search_button;
     @BindView(R.id.account)
     ImageButton account_button;
+    private Intent intent;
 
     private ViewPagerAdapter viewPagerAdapter;
     private Third_Fragment third_fragment;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("asd","Main.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -64,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH) + 1;
         currentMonth.setText(year + "년 " + month + "월");
-
+        //intent = getIntent();
+        //Log.e("asd",Integer.toString(getIntent().getIntExtra("position",2)));
         third_fragment = new Third_Fragment();
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this,third_fragment);
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("main",""+getIntent().getStringExtra("test"));
+        Log.d("asd","Main.onResume()");
         try {
             EventBus.getDefault().register(this);
         } catch (Exception e) {
@@ -186,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("asd","Main.onDestory()");
         try {
             EventBus.getDefault().unregister(this);
         } catch (Exception e) {

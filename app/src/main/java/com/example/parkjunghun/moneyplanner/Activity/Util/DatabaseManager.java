@@ -41,6 +41,7 @@ public class DatabaseManager {
     private NumberFormat numberFormat;
     private TextView Income;
     private TextView Outlay;
+    private String [] arr;
 
     public static DatabaseManager getInstance() {
         return instance;
@@ -164,7 +165,6 @@ public class DatabaseManager {
                             OutMoneyList.add(detailMoneyInfo);
                             OutSum += detailMoneyInfo.getUsingMoney();
                         }
-
                     }
 
                     if(InMoneyList.size() == 0 && OutMoneyList.size() == 0){
@@ -190,8 +190,21 @@ public class DatabaseManager {
     }
 
     //삭제버튼 누를시 DB 삭제
-    public void deleteScheduleMoneyInfo(){
-
+    public void deleteScheduleMoneyInfo(String data,String key1){
+        InMoneyList.clear(); OutMoneyList.clear();
+        arr = data.split("-");
+        Log.e("asd1",arr[0] + arr[1] + arr[2]);
+        usinginfo_databaseReference.child(key).child(arr[0]+arr[1]).child(arr[2]).orderByChild("key").equalTo(key1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot keyvalue : dataSnapshot.getChildren()) {
+                    childKeyvalue = keyvalue.getKey();
+                }
+                usinginfo_databaseReference.child(key).child(arr[0]+arr[1]).child(arr[2]).child(childKeyvalue).removeValue();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
-
 }

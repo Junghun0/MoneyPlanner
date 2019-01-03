@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:andoird="http://schemas.android.com/apk/res/android">
+    <item
+        andoird:top="6dp"
+        andoird:right="24dp"
+        andoird:bottom="9dp"
+        andoird:left="24dp">
+
+        <shape
+            andoird:shape="oval">
+            <solid andoird:color="#b300ff"/>
+        </shape>
+    </item>
+
+</layer-list>

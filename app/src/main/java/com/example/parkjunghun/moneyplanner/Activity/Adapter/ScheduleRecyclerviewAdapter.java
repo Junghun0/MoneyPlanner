@@ -27,8 +27,10 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
     private NumberFormat numberFormat = NumberFormat.getInstance();
     private ItemViewHolder itemViewHolder1;
     private Intent intent;
-    private Bitmap sendBitmap;
     private String date;
+    private String key;
+    private int index;
+    private DetailMoneyInfo detailMoneyInfo;
 
     private boolean isCheck = true;
 
@@ -51,24 +53,23 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         schedule_money = (TextView)itemView.findViewById(R.id.schedule_money);
         schedule_change = (ImageView)itemView.findViewById(R.id.schedule_change);
         schedule_change.setOnClickListener(this);
-    }
+        }
 
         @Override
         public void onClick(View v) {
             intent = new Intent(context.getContext(), DetailScheduleActivity.class);
-            /*sendBitmap = BitmapFactory.decodeResource(context.getContext().getResources(),R.drawable.ic_loop_black_24dp);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            intent.putExtra("image",byteArray);*/
-            //이미지도 추가해야함
-            if(schedule_money.getCurrentTextColor() == Color.GREEN)
-                intent.putExtra("type","income");
-            else
-                intent.putExtra("type","outlay");
+            //이미지추가해야함
+            if(schedule_money.getCurrentTextColor() == Color.GREEN) {
+                intent.putExtra("type", "income");
+            }
+            else {
+                intent.putExtra("type", "outlay");
+            }
             intent.putExtra("date",date);
+            intent.putExtra("key",key);
             intent.putExtra("name",schedule_name.getText().toString());
             intent.putExtra("using_money",schedule_money.getText().toString());
+            intent.putExtra("index",index);
             context.startActivity(intent);
         }
     }
@@ -76,8 +77,10 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
         itemViewHolder1 = itemViewHolder;
-        DetailMoneyInfo detailMoneyInfo = arrayList.get(i);
+        detailMoneyInfo = arrayList.get(i);
         date = detailMoneyInfo.getSelectDate();
+        key = detailMoneyInfo.getKey();
+        index = i;
         //itemViewHolder.schedule_image.setImageResource(detailMoneyInfo.getUsingMoney());
         itemViewHolder1.schedule_name.setText(detailMoneyInfo.getSelectDate());
         itemViewHolder1.schedule_change.setImageResource(R.drawable.ic_loop_black_24dp);
@@ -100,22 +103,20 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
             @Override
         public void onClick(View v) {
             intent = new Intent(itemViewHolder1.itemView.getContext(),DetailScheduleActivity.class);
-            /*sendBitmap = ((BitmapDrawable)itemViewHolder1.schedule_change.getDrawable()).getBitmap();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-            intent.putExtra("image",byteArray);*/
-                if(itemViewHolder1.schedule_money.getCurrentTextColor() == Color.GREEN)
-                    intent.putExtra("type","income");
-                else
-                    intent.putExtra("type","outlay");
+            if(itemViewHolder1.schedule_money.getCurrentTextColor() == Color.GREEN) {
+                intent.putExtra("type", "income");
+            }
+            else {
+                intent.putExtra("type", "outlay");
+            }
             intent.putExtra("name",itemViewHolder1.schedule_name.getText().toString());
             intent.putExtra("using_money",itemViewHolder1.schedule_money.getText().toString());
+            intent.putExtra("key",key);
             intent.putExtra("date",date);
+            intent.putExtra("index",index);
             itemViewHolder1.itemView.getContext().startActivity(intent);
-
-        }
-    });
+            }
+        });
     }
 
     @Override
@@ -145,6 +146,12 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         notifyDataSetChanged();
     }
 
+    public void subItem(int index) {
+        arrayList.remove(index);
+        notifyItemRemoved(index);
+        notifyDataSetChanged();
+    }
+
     public void isShow(int check){
         if(check % 2 == 1){
             isCheck = false;
@@ -152,4 +159,5 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
             isCheck = true;
         }
     }
+
 }

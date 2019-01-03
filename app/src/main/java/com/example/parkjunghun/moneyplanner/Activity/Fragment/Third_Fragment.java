@@ -108,26 +108,22 @@ public class Third_Fragment extends Fragment {
         InRecyclerView.setAdapter(Inadapter);
         OutRecyclerView.setLayoutManager(layoutManager1);
         OutRecyclerView.setAdapter(Outadapter);
-        /*InRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
-        OutRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));*/
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
-                Log.e("asd","asd");
-                //여기에서도 만약 선택된 날짜가 파이어베이스안에 데이터가 있다면 점 색깔 바꿔줘야함!
                 if(date.get(Calendar.DAY_OF_MONTH) > 0){
                     textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
                     String data = Integer.toString(date.get(Calendar.YEAR)) + Integer.toString(date.get(Calendar.MONTH)+1) + " " + Integer.toString(date.get(Calendar.DAY_OF_MONTH));
-                    databaseManager.getScheduleMoneyInfo(Inadapter,Outadapter,data,horizontalCalendar,view);
+                    DatabaseManager.getInstance().getScheduleMoneyInfo(Inadapter,Outadapter,data,horizontalCalendar,view);
                 }
             }
         });
-
         return view;
     }
 
     @OnClick(R.id.InChange)
     public void OnInChange(){
+        //Inadapter.subItem(0);
         Incheck++;
         Inadapter.isShow(Incheck);
         Inadapter.notifyDataSetChanged();
@@ -137,6 +133,7 @@ public class Third_Fragment extends Fragment {
 
     @OnClick(R.id.OutChange)
     public void OnOutChange(){
+       // Outadapter.subItem(0);
         Outcheck++;
         Outadapter.isShow(Outcheck);
         Outadapter.notifyDataSetChanged();
@@ -164,7 +161,23 @@ public class Third_Fragment extends Fragment {
 
     @Subscribe
     public void testEvent(Weekly_Update_Event event) {
-        Date_Update(event.year, event.month, false);
+        Inadapter.notifyDataSetChanged();
+        Outadapter.notifyDataSetChanged();
+        Log.e("asd",event.update);
+        if(event.update.startsWith("DB")){
+            Log.e("asd","여기?");
+            String data[] = event.update.split(" ");
+            if(data[1].equals("수입")){
+                Inadapter.subItem(Integer.parseInt(data[2]));
+                Inadapter.notifyDataSetChanged();
+            } else if(data[1].equals("수출")){
+                Outadapter.subItem(Integer.parseInt(data[2]));
+                Outadapter.notifyDataSetChanged();
+            }
+            //Date_Update(event.year, event.month, false);
+        } else {
+            Date_Update(event.year, event.month, false);
+        }
     }
 
     @Override
@@ -178,8 +191,6 @@ public class Third_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        try{
-            EventBus.getDefault().unregister(this);
-        }catch (Exception e){}
     }
+
 }

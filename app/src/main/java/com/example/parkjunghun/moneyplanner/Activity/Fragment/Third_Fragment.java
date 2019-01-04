@@ -112,12 +112,14 @@ public class Third_Fragment extends Fragment {
             @Override
             public void onDateSelected(Calendar date, int position) {
                 if(date.get(Calendar.DAY_OF_MONTH) > 0){
+                    Log.e("okok","지금 불림");
                     textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
                     String data = Integer.toString(date.get(Calendar.YEAR)) + Integer.toString(date.get(Calendar.MONTH)+1) + " " + Integer.toString(date.get(Calendar.DAY_OF_MONTH));
                     DatabaseManager.getInstance().getScheduleMoneyInfo(Inadapter,Outadapter,data,horizontalCalendar,view);
                 }
             }
         });
+
         return view;
     }
 
@@ -161,8 +163,8 @@ public class Third_Fragment extends Fragment {
 
     @Subscribe
     public void testEvent(Weekly_Update_Event event) {
-        Inadapter.notifyDataSetChanged();
-        Outadapter.notifyDataSetChanged();
+        /*Inadapter.notifyDataSetChanged();
+        Outadapter.notifyDataSetChanged();*/
         Log.e("asd",event.update);
         if(event.update.startsWith("DB")){
             Log.e("asd","여기?");
@@ -174,7 +176,6 @@ public class Third_Fragment extends Fragment {
                 Outadapter.subItem(Integer.parseInt(data[2]));
                 Outadapter.notifyDataSetChanged();
             }
-            //Date_Update(event.year, event.month, false);
         } else {
             Date_Update(event.year, event.month, false);
         }

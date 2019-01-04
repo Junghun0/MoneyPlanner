@@ -144,6 +144,7 @@ public class DatabaseManager {
     public void getScheduleMoneyInfo(ScheduleRecyclerviewAdapter Inadapter, ScheduleRecyclerviewAdapter Outadapter, String data, HorizontalCalendar horizontalCalendar, View view) {
         InMoneyList.clear(); OutMoneyList.clear();
         InAdapter = Inadapter; OutAdapter = Outadapter;
+        InAdapter.clearItem(); OutAdapter.clearItem();
         InAdapter.notifyDataSetChanged(); OutAdapter.notifyDataSetChanged();
         horizontalCalendar1 = horizontalCalendar;
         Income = view.findViewById(R.id.IncomeMoney);
@@ -181,6 +182,9 @@ public class DatabaseManager {
                     OutAdapter.notifyDataSetChanged();
                     Income.setText(numberFormat.format(InSum) + "원");
                     Outlay.setText(numberFormat.format(OutSum) + "원");
+
+
+
                 }
 
                 @Override

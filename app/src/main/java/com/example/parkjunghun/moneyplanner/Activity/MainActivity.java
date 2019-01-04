@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     String year[] = days[0].split("년");
                     String day[] = days[1].split("월");
                     //Log.e("Third_Fragment",year[0] + " " + day[0]);
-                    third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false);
+                    //third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false);
                     //Log.e("Third_Fragment",currentMonth.getText().toString());
                     //�기�제 받아Date_update()�수 �출!;
                 }

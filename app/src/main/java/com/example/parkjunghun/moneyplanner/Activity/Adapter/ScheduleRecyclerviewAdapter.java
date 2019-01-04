@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -59,27 +60,31 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         public void onClick(View v) {
             intent = new Intent(context.getContext(), DetailScheduleActivity.class);
             //이미지추가해야함
+            Log.e("asd",index + " 와");
+            detailMoneyInfo = arrayList.get(getAdapterPosition());
             if(schedule_money.getCurrentTextColor() == Color.GREEN) {
                 intent.putExtra("type", "income");
             }
             else {
                 intent.putExtra("type", "outlay");
             }
-            intent.putExtra("date",date);
-            intent.putExtra("key",key);
+            intent.putExtra("date",detailMoneyInfo.getSelectDate());
+            intent.putExtra("key",detailMoneyInfo.getKey());
             intent.putExtra("name",schedule_name.getText().toString());
-            intent.putExtra("using_money",schedule_money.getText().toString());
-            intent.putExtra("index",index);
+            intent.putExtra("using_money",Integer.toString(detailMoneyInfo.getUsingMoney()));
+            intent.putExtra("index",getAdapterPosition());
             context.startActivity(intent);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
+        Log.e("asd","여기 " + i);
         itemViewHolder1 = itemViewHolder;
         detailMoneyInfo = arrayList.get(i);
         date = detailMoneyInfo.getSelectDate();
         key = detailMoneyInfo.getKey();
+        Log.e("asd",key + " " + date);
         index = i;
         //itemViewHolder.schedule_image.setImageResource(detailMoneyInfo.getUsingMoney());
         itemViewHolder1.schedule_name.setText(detailMoneyInfo.getSelectDate());
@@ -99,10 +104,11 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
             itemViewHolder1.schedule_change.setVisibility(View.VISIBLE);
         }
 
-        itemViewHolder1.itemView.setOnClickListener(new View.OnClickListener() {
+       /* itemViewHolder1.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
         public void onClick(View v) {
             intent = new Intent(itemViewHolder1.itemView.getContext(),DetailScheduleActivity.class);
+            Log.e("asd",getItemCount()+ " 2");
             if(itemViewHolder1.schedule_money.getCurrentTextColor() == Color.GREEN) {
                 intent.putExtra("type", "income");
             }
@@ -110,13 +116,14 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
                 intent.putExtra("type", "outlay");
             }
             intent.putExtra("name",itemViewHolder1.schedule_name.getText().toString());
-            intent.putExtra("using_money",itemViewHolder1.schedule_money.getText().toString());
+            intent.putExtra("using_money",Integer.toString(detailMoneyInfo.getUsingMoney()));
             intent.putExtra("key",key);
             intent.putExtra("date",date);
             intent.putExtra("index",index);
+            Log.e("asd",key);
             itemViewHolder1.itemView.getContext().startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
@@ -152,6 +159,11 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         notifyDataSetChanged();
     }
 
+    public void clearItem(){
+        arrayList.clear();
+        notifyDataSetChanged();
+    }
+
     public void isShow(int check){
         if(check % 2 == 1){
             isCheck = false;
@@ -159,5 +171,4 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
             isCheck = true;
         }
     }
-
 }

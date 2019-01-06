@@ -50,7 +50,7 @@ public class CalendarRecyclerviewAdapter extends RecyclerView.Adapter<CalendarRe
             Intent intent = new Intent(context.getContext(), DetailActivity.class);
             intent.putExtra("data", dataList.get(getLayoutPosition()));
             intent.putExtra("index", getLayoutPosition());
-            Log.e("database","recycler onclick->"+getLayoutPosition());
+            Log.e("database first_frag","recycler onclick->"+getLayoutPosition());
             context.startActivity(intent);
         }
     }

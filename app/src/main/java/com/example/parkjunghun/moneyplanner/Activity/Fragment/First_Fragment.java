@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,15 +61,16 @@ public class First_Fragment extends Fragment {
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("M", Locale.getDefault());
     private SimpleDateFormat dateFormatForYear = new SimpleDateFormat("yyyy", Locale.getDefault());
     private ArrayList<DetailMoneyInfo> dataList = new ArrayList<>();
+    private ArrayList<String> eventDateList = new ArrayList<>();
 
     private boolean shouldShow = false;
     private String selectedDate;
-    CalendarRecyclerviewAdapter adapter;
+    private CalendarRecyclerviewAdapter adapter;
     private DetailMoneyInfo data;
-        
+
     public static First_Fragment newInstance2(DetailMoneyInfo detailMoneyInfo) {
         Bundle args = new Bundle();
-        args.putSerializable("data",detailMoneyInfo);
+        args.putSerializable("data", detailMoneyInfo);
         First_Fragment fragment = new First_Fragment();
         fragment.setArguments(args);
         return fragment;
@@ -78,7 +80,7 @@ public class First_Fragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Log.i(TAG, "on activitycreated");
+        Log.e(TAG, "onactivitycreated");
 
         adapter = new CalendarRecyclerviewAdapter(this, dataList);
         main_recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,39 +88,29 @@ public class First_Fragment extends Fragment {
 
         if (getArguments() != null) {
             //디비에 넣기
-            Log.e("first","getarguments not null......");
-            data = (DetailMoneyInfo)getArguments().getSerializable("data");
+            data = (DetailMoneyInfo) getArguments().getSerializable("data");
             DatabaseManager.getInstance().setMoneyInfo(data);
         }
 
-        final List<String> mutableBookings = new ArrayList<>();
-        final ArrayList<String> detailMoneyInfoArrayList = new ArrayList<>();
-        loadEvents();
+        //툴바
+        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+
+        //달력
+        loadEvents(1, 2019);
         compactCalendarView.invalidate();
-        logEventsByMonth(compactCalendarView);
+        //logEventsByMonth(compactCalendarView);
 
         compactCalendarView.setUseThreeLetterAbbreviation(false);
         compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(false);
 
-        toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
 
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> bookingsFromMap = compactCalendarView.getEvents(dateClicked);
-                Log.d(TAG, "clicked date->" + dateFormatOnclick.format(dateClicked) + ",,dateclicked->" + dateClicked);
-
-                if (bookingsFromMap != null) {
-                    mutableBookings.clear();
-                    detailMoneyInfoArrayList.clear();
-                    for (Event booking : bookingsFromMap) {
-                        mutableBookings.add((String) booking.getData());
-                        detailMoneyInfoArrayList.add((String) booking.getData());
-                    }
-                }
+                Log.d(TAG, "clicked date-> " + dateFormatOnclick.format(dateClicked));
 
                 DatabaseManager.getInstance().getMoneyInfo(adapter, dateFormatOnclick.format(dateClicked));
 
@@ -130,6 +122,9 @@ public class First_Fragment extends Fragment {
             public void onMonthScroll(Date firstDayOfNewMonth) {
                 EventBus.getDefault().post(new CalendarScrollEvent(Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)),
                         Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth))));
+
+               DatabaseManager.getInstance().getCalendarEvent(dateFormatOnclick.format(firstDayOfNewMonth) , eventDateList);
+               loadEvents(Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth)),Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)));
             }
         });
     }
@@ -140,7 +135,7 @@ public class First_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.first_fragment_layout, container, false);
         ButterKnife.bind(this, view);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
-        Log.i(TAG, "oncreateview");
+        Log.e(TAG, "oncreateview");
         return view;
     }
 
@@ -149,7 +144,7 @@ public class First_Fragment extends Fragment {
         if (selectedDate != null) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.main_view2, Add_First_Fragment.newInstance(selectedDate)).addToBackStack(null).commit();
+            fragmentTransaction.add(R.id.main_view2, Add_First_Fragment.newInstance(selectedDate)).addToBackStack(null).commit();
             adapter.clearItem(dataList);
         } else {
             Toast.makeText(getActivity(), "날짜를 선택해주세요", Toast.LENGTH_SHORT).show();
@@ -165,11 +160,10 @@ public class First_Fragment extends Fragment {
         }
     }
 
-    private void loadEvents() {
-        Log.i(TAG, "loadEvents method...");
-        addEvents(-1, -1);
-        //addEvents(Calendar.DECEMBER, -1);
-        //addEvents(Calendar.AUGUST, -1);
+    private void loadEvents(int month, int year) {
+        Log.i(TAG, "loadEvents method... month-"+month+"year"+year);
+        addEvents(month, year);
+
     }
 
     private void loadEventsForYear(int year) {
@@ -180,45 +174,42 @@ public class First_Fragment extends Fragment {
     private void addEvents(int month, int year) {
         Log.i(TAG, "addEvents method...");
         currentCalender.setTime(new Date());
-        currentCalender.set(Calendar.DAY_OF_MONTH, 1);
+        currentCalender.set(Calendar.DAY_OF_MONTH, month);
         Date firstDayOfMonth = currentCalender.getTime();
-        //여기서 달력에 event 추가되는 일
-//        for (int i = 0; i < 6; i++) {
-//            currentCalender.setTime(firstDayOfMonth);
-//            if (month > -1) {
-//                currentCalender.set(Calendar.MONTH, month);
-//            }
-//            if (year > -1) {
-//                currentCalender.set(Calendar.ERA, GregorianCalendar.AD);
-//                currentCalender.set(Calendar.YEAR, year);
-//            }
-//
-//            currentCalender.add(Calendar.DATE, i);
-//            setToMidnight(currentCalender);
-//
-//            long timeInMillis = currentCalender.getTimeInMillis();
-//            List<Event> events = getEvent(timeInMillis, i, detailMoneyInfo);
-//            compactCalendarView.addEvents(events);
-//        }
-
-
-            if(data != null) {
-
-                Log.i(TAG, "addEvents method...");
-
+        if(eventDateList.size() > 0 ){
+            for(String date : eventDateList){
                 currentCalender.setTime(firstDayOfMonth);
+                if (month > -1) {
+                    currentCalender.set(Calendar.MONTH, month);
+                }
+                if (year > -1) {
+                    currentCalender.set(Calendar.ERA, GregorianCalendar.AD);
+                    currentCalender.set(Calendar.YEAR, year);
+                }
+
+                int eventdate = Integer.parseInt(date);
                 setToMidnight(currentCalender);
+                currentCalender.add(Calendar.DATE, eventdate);
 
-                String date = data.getSelectDate();
-                String datearray[] = date.split("-");
-
-                currentCalender.add(Calendar.DATE, Integer.parseInt(datearray[2]) - 1);
-                long time = currentCalender.getTimeInMillis();
-
-                List<Event> eventList = getEvent(time, Integer.parseInt(datearray[2]) - 1, data);
+                long timeMillis = currentCalender.getTimeInMillis();
+                List<Event> eventList = getEvent(timeMillis, eventdate);
                 compactCalendarView.addEvents(eventList);
             }
+        }
 
+    }
+
+    private List<Event> getEvent(long timeInMillis, int day) {
+
+        List<Event> addeventlist = new ArrayList<>();
+        if(eventDateList.size() > 0){
+            Log.e(TAG,"at get Event size"+eventDateList.size());
+            for(int i = 0 ; i < eventDateList.size(); i++){
+                addeventlist.add(new Event(Color.argb(200, 100, 68, 65), timeInMillis));
+            }
+        }
+
+        return addeventlist;
     }
 
     private void logEventsByMonth(CompactCalendarView compactCalendarView) {
@@ -239,21 +230,6 @@ public class First_Fragment extends Fragment {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-    }
-
-    private List<Event> getEvent(long timeInMillis, int day, DetailMoneyInfo detailMoneyInfo) {
-
-        List<Event> addeventlist = new ArrayList<>();
-
-        String date = detailMoneyInfo.getSelectDate();
-        String datearray[] = date.split("-");
-
-        Log.i(TAG, "!getEvent method..." + day + " , " + (Integer.parseInt(datearray[2]) - 1) + "size->" + addeventlist.size());
-
-        Event event = new Event(Color.argb(200, 100, 68, 65), timeInMillis, detailMoneyInfo.getType());
-        addeventlist.add(event);
-
-        return addeventlist;
     }
 
     @Override
@@ -279,15 +255,15 @@ public class First_Fragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onresume datalist size"+dataList.size());
         if (getArguments() != null) {
+            //+버튼으로 데이터 추가할때
             DatabaseManager.getInstance().getMoneyInfo(adapter, data.getSelectDate());
         }
 
-        if(getActivity().getIntent().getExtras() != null && getArguments() == null){
-            getActivity().getIntent().getIntExtra("index",0);
-            Log.e(TAG,"getintetn->>"+getActivity().getIntent().getIntExtra("index",0));
-            DatabaseManager.getInstance().getMoneyInfo(adapter, getActivity().getIntent().getStringExtra("date"));
+        if (getActivity().getIntent().getExtras() != null && getArguments() == null) {
+            //데이터 지웠을때
+            DatabaseManager.getInstance().deleteMoneyInfo2(adapter, getActivity().getIntent().getStringExtra("key"),
+                    getActivity().getIntent().getStringExtra("date"), getActivity().getIntent().getIntExtra("index", 0));
         }
     }
 

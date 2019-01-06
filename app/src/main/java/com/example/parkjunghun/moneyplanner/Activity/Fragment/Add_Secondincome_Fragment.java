@@ -66,6 +66,7 @@ public class Add_Secondincome_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.add_secondincome_fragment_layout, container, false);
         data_key = FirebaseDatabase.getInstance().getReference().push().getKey();
         ButterKnife.bind(this, view);
+        Log.e("First_Fragment","add_secondincome_first oncreateview......");
         if(getArguments() != null){
             usingmoney = getArguments().getInt("usingmoney");
             selectDate = getArguments().getString("selectDate");
@@ -89,5 +90,11 @@ public class Add_Secondincome_Fragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("First_Fragment","add_secondincome ondestroy......");
     }
 }

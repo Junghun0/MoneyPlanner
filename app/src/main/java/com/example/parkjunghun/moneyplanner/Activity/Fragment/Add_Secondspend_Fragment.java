@@ -58,14 +58,14 @@ public class Add_Secondspend_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_secondspend_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        Log.e("First_Fragment","add_secondspend_first oncreateview......");
         data_key = FirebaseDatabase.getInstance().getReference().push().getKey();
 
         if(getArguments() != null){
             selectDate = getArguments().getString("selectDate");
             usingmoney = getArguments().getInt("usingmoney");
         }
-
-
 
         second_spend_edittext.setFocusableInTouchMode(true);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
@@ -85,5 +85,11 @@ public class Add_Secondspend_Fragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("First_Fragment","add_secondspend ondestroy......");
     }
 }

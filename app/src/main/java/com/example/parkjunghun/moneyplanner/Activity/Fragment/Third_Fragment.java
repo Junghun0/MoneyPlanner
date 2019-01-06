@@ -148,7 +148,6 @@ public class Third_Fragment extends Fragment {
         if(check == true){
 //            Log.e("Third_Fragment","여기들어옴");
         }else{
-            Log.e("asd","여기들어옴");
             Calendar startC = Calendar.getInstance();
             startC.set(Calendar.YEAR,year);
             if(month-1 != startC.get(Calendar.MONTH)){
@@ -165,9 +164,7 @@ public class Third_Fragment extends Fragment {
     public void testEvent(Weekly_Update_Event event) {
         /*Inadapter.notifyDataSetChanged();
         Outadapter.notifyDataSetChanged();*/
-        Log.e("asd",event.update);
         if(event.update.startsWith("DB")){
-            Log.e("asd","여기?");
             String data[] = event.update.split(" ");
             if(data[1].equals("수입")){
                 Inadapter.subItem(Integer.parseInt(data[2]));

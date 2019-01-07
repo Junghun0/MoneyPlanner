@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,8 +37,7 @@ public class PopupActivity extends Activity {
     private String key;
     private String capture;
     private String pre_key;
-    private ImageView imageView1;
-    private ImageView imageView2;
+    private Intent response;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,44 +49,48 @@ public class PopupActivity extends Activity {
         key = intent.getStringExtra("key");
         pre_key = intent.getStringExtra("pre_key");
         capture = intent.getStringExtra("select");
-        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.activity_detail_schedule, null);
 
-        imageView1 = (ImageView)view.findViewById(R.id.image_capture1);
-        imageView2 = (ImageView)view.findViewById(R.id.image_capture2);
-        Log.e("asd",capture);
         sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
     @OnClick(R.id.pop_cancel)
     public void cancel_button1(){
+        response = new Intent();
+        response.putExtra("response","cancel");
+        setResult(Activity.RESULT_OK,response);
         finish();
     }
 
     @OnClick(R.id.pop_delete)
     public void delete_button1(){
+        response = new Intent();
         if(capture.equals("capture1")){
-            imageView1.setImageDrawable(null);
-            imageView1.setVisibility(View.INVISIBLE);
+            response.putExtra("response","imageView1");
         }else if(capture.equals("capture2")){
-            imageView2.setImageDrawable(null);
-            imageView2.setVisibility(View.INVISIBLE);
+            response.putExtra("response","imageView2");
         }
         editor.remove(pre_key);
         editor.commit();
+        setResult(Activity.RESULT_OK,response);
         finish();
     }
 
     @OnClick(R.id.pop_change)
     public void change_button1(){
-
+        response = new Intent();
+        response.putExtra("response",capture + " camera");
+        setResult(Activity.RESULT_OK,response);
+        finish();
     }
 
-    @OnClick(R.id.pop_edit)
+/*    @OnClick(R.id.pop_edit)
     public void edit_button1(){
-
-    }
+        response = new Intent();
+        response.putExtra("response","rotate");
+        setResult(Activity.RESULT_OK,response);
+        finish();
+    }*/
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -98,6 +102,6 @@ public class PopupActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //super.onBackPressed();
     }
 }

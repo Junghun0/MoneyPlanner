@@ -1,4 +1,4 @@
-﻿package com.example.parkjunghun.moneyplanner.Activity.Util;
+package com.example.parkjunghun.moneyplanner.Activity.Util;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -112,7 +112,6 @@ public class DatabaseManager {
     //데이터중에 key값을 받아서 해당하는 데이터 삭제
     public void deleteMoneyInfo(String keyvalue, String date) {
         final String[] childkey = date.split("-");
-
         usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).orderByChild("key").equalTo(keyvalue).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

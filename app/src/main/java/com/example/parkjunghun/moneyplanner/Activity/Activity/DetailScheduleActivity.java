@@ -1,16 +1,12 @@
 package com.example.parkjunghun.moneyplanner.Activity.Activity;
 
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -21,16 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.Activity.Util.DatabaseManager;
 import com.example.parkjunghun.moneyplanner.R;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.io.InputStream;
 import java.text.NumberFormat;
 
 import butterknife.BindView;
@@ -81,17 +73,11 @@ public class DetailScheduleActivity extends AppCompatActivity {
     private String preferences;
     private NumberFormat numberFormat = NumberFormat.getInstance();
     private InputMethodManager imm;
-    private InputStream in;
-    private Bitmap img;
-    private Bitmap shared_bit1;
-    private Bitmap shared_bit2;
     private String key1;
     private String key2;
     private String shared_capture1;
     private String shared_capture2;
     private Uri uri;
-    private Uri uri1;
-    private Uri uri2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +109,6 @@ public class DetailScheduleActivity extends AppCompatActivity {
         shared_capture1 = sharedPreferences.getString(key1,null);
         shared_capture2 = sharedPreferences.getString(key2,null);
 
-
-        Log.e("asd",shared_capture1 + " ok " + shared_capture2);
         if(shared_capture1 == null && shared_capture2 == null) {
             capture1.setVisibility(View.INVISIBLE);
             capture2.setVisibility(View.INVISIBLE);
@@ -185,13 +169,21 @@ public class DetailScheduleActivity extends AppCompatActivity {
 
     @OnClick(R.id.receipt_camera)
     public void receipt_camera() {
-        //사진 2장 되면 알아서 카메라 막아야함
-            intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_PICK);
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent = new Intent();
+        camera_in(intent,0);
+    }
+
+    public void camera_in(Intent intent,int num){
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if(num == 0)
             startActivityForResult(intent, 1);
+        else if(num == 1)
+            startActivityForResult(intent, 2);
+        else if(num == 2)
+            startActivityForResult(intent, 3);
     }
 
     @OnClick(R.id.image_capture1)
@@ -200,7 +192,7 @@ public class DetailScheduleActivity extends AppCompatActivity {
         intent.putExtra("key",shared_capture1);
         intent.putExtra("pre_key",key1);
         intent.putExtra("select","capture1");
-        startActivity(intent);
+        startActivityForResult(intent,1000);
     }
 
     @OnClick(R.id.image_capture2)
@@ -209,7 +201,7 @@ public class DetailScheduleActivity extends AppCompatActivity {
         intent.putExtra("key",shared_capture2);
         intent.putExtra("pre_key",key2);
         intent.putExtra("select","capture2");
-        startActivity(intent);
+        startActivityForResult(intent,1000);
     }
 
     @Override
@@ -224,44 +216,56 @@ public class DetailScheduleActivity extends AppCompatActivity {
                         final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
                         this.getContentResolver().takePersistableUriPermission(uri,takeFlags);
                     }
-                    /*else{
-                        ClipData clipdata = data.getClipData();
-                        if(clipdata.getItemCount() > 2){
-                            Toast.makeText(getApplicationContext(),"사진은 최대 2장까지 선택가능합니다.",Toast.LENGTH_LONG).show();
-                            return;
-                        } else if(clipdata.getItemCount() == 1){
-                            uri = clipdata.getItemAt(0).getUri();
-                            setSharedPreferences(key1,key2,uri);
-                            this.grantUriPermission(this.getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                            this.getContentResolver().takePersistableUriPermission(uri,takeFlags);
-                        } else if(clipdata.getItemCount() == 2){
-                            String c = sharedPreferences.getString(key1,null);
-                            String d = sharedPreferences.getString(key2,null);
-                            if(c == null && d == null) {
-                                for (int i = 0; i < clipdata.getItemCount(); i++) {
-                                    if( i==0 ){
-                                        uri1 = clipdata.getItemAt(0).getUri();
-                                        setSharedPreferences(key1, key2, uri1);
-                                        this.grantUriPermission(this.getPackageName(),uri1,Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                                    } else {
-                                        uri2 = clipdata.getItemAt(1).getUri();
-                                        setSharedPreferences(key1, key2, uri2);
-                                        this.grantUriPermission(this.getPackageName(),uri2,Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                                    }
-                                }
-                            } else {
-                                Toast.makeText(getApplicationContext(),"사진은 최대 2장까지 선택가능합니다.",Toast.LENGTH_LONG).show();
-                                return ;
-                            }
-                        }
-                    }*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+        }
+        else if(requestCode == 2){
+            try{
+                uri = data.getData();
+                capture1.setImageURI(uri);
+                capture1.setVisibility(View.VISIBLE);
+                editor.putString(key1, String.valueOf(uri));
+                editor.commit();
+                this.grantUriPermission(this.getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                this.getContentResolver().takePersistableUriPermission(uri,takeFlags);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else if(requestCode == 3){
+            try{
+                uri = data.getData();
+                capture2.setImageURI(uri);
+                capture2.setVisibility(View.VISIBLE);
+                editor.putString(key2, String.valueOf(uri));
+                editor.commit();
+                this.grantUriPermission(this.getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                this.getContentResolver().takePersistableUriPermission(uri,takeFlags);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else if(requestCode == 1000){
+            String x = data.getStringExtra("response");
+            Log.e("asd",x);
+            if(x.equals("imageView1")){
+                capture1.setImageDrawable(null);
+                capture1.setVisibility(View.INVISIBLE);
+            } else if(x.equals("imageView2")){
+                capture2.setImageDrawable(null);
+                capture2.setVisibility(View.INVISIBLE);
+            } else if(x.equals("capture1 camera")){
+                intent = new Intent();
+                camera_in(intent,1);
+            } else if(x.equals("capture2 camera")){
+                intent = new Intent();
+                camera_in(intent,2);
+            } /*else if(x.equals("rotate")){
+                capture1.setRotation(90);
+            }*/
         }
     }
 

@@ -1,4 +1,4 @@
-﻿package com.example.parkjunghun.moneyplanner.Activity;
+package com.example.parkjunghun.moneyplanner.Activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -6,8 +6,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton search_button;
     @BindView(R.id.account)
     ImageButton account_button;
+
     private Intent intent;
 
     private ViewPagerAdapter viewPagerAdapter;
@@ -74,11 +77,8 @@ public class MainActivity extends AppCompatActivity {
         Log.e("asd","Main.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        checkPermissions(); //권한 묻기
         ButterKnife.bind(this);
-
-
-        Log.d("First_Fragment mainac","oncreate");
+        checkPermissions(); //권한 묻기
 
         cal = Calendar.getInstance();
         year = cal.get(Calendar.YEAR);
@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         getIntent().getStringExtra("test");
-
 
         //viewPager 가 바뀔때 발생�는 리스
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-    }
+     }
     private void showNoPermissionToastAndFinish() {
         Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
         finish();

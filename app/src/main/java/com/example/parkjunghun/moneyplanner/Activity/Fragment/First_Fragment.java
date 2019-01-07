@@ -61,7 +61,10 @@ public class First_Fragment extends Fragment {
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("M", Locale.getDefault());
     private SimpleDateFormat dateFormatForYear = new SimpleDateFormat("yyyy", Locale.getDefault());
     private ArrayList<DetailMoneyInfo> dataList = new ArrayList<>();
+
+
     private ArrayList<String> eventDateList = new ArrayList<>();
+    private ArrayList<Event> calendarEventList = new ArrayList<>();
 
     private boolean shouldShow = false;
     private String selectedDate;
@@ -76,11 +79,19 @@ public class First_Fragment extends Fragment {
         return fragment;
     }
 
+
+    public void getDate(){
+       DatabaseManager.getInstance().getCalendarEvent(dateFormatOnclick.format(new Date()) , eventDateList, compactCalendarView);
+
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         Log.e(TAG, "onactivitycreated");
+        //getDate();
+
 
         adapter = new CalendarRecyclerviewAdapter(this, dataList);
         main_recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -96,7 +107,7 @@ public class First_Fragment extends Fragment {
         toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         //달력
-        loadEvents(1, 2019);
+        loadEvents(12, 2018);
         compactCalendarView.invalidate();
         //logEventsByMonth(compactCalendarView);
 
@@ -123,8 +134,8 @@ public class First_Fragment extends Fragment {
                 EventBus.getDefault().post(new CalendarScrollEvent(Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)),
                         Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth))));
 
-               DatabaseManager.getInstance().getCalendarEvent(dateFormatOnclick.format(firstDayOfNewMonth) , eventDateList);
-               loadEvents(Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth)),Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)));
+                //DatabaseManager.getInstance().getCalendarEvent(dateFormatOnclick.format(firstDayOfNewMonth) , eventDateList);
+                //loadEvents(Integer.valueOf(dateFormatForMonth.format(firstDayOfNewMonth)),Integer.valueOf(dateFormatForYear.format(firstDayOfNewMonth)));
             }
         });
     }
@@ -162,6 +173,7 @@ public class First_Fragment extends Fragment {
 
     private void loadEvents(int month, int year) {
         Log.i(TAG, "loadEvents method... month-"+month+"year"+year);
+
         addEvents(month, year);
 
     }

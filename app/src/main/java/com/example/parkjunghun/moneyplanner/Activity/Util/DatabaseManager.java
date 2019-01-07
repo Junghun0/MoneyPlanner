@@ -10,6 +10,8 @@ import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclervie
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ScheduleRecyclerviewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
 import com.example.parkjunghun.moneyplanner.R;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -20,7 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
 
@@ -43,6 +49,12 @@ public class DatabaseManager {
     private TextView Income;
     private TextView Outlay;
     private String [] arr;
+    private CompactCalendarView compactCalendarView;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d hh:mm:ss");
+
+
+
 
     public static DatabaseManager getInstance() {
         return instance;
@@ -211,9 +223,9 @@ public class DatabaseManager {
         });
     }
 
-    public void getCalendarEvent(String date, final ArrayList<String> eventData) {
+    public void getCalendarEvent(final String date, final ArrayList<String> eventData, CompactCalendarView calendarView) {
         String[] childkey = date.split("-");
-
+        compactCalendarView = calendarView;
         usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -222,11 +234,28 @@ public class DatabaseManager {
                     if (data != null) {
                         eventData.add(data.getKey());
                         Log.e("First_Fragment dbdb", "database event! at if->" + eventData.size());
+                        long timeMillis = Calendar.getInstance().getTimeInMillis();
+                        compactCalendarView.addEvent(new Event(Color.RED,timeMillis));
+                        compactCalendarView.invalidate();
+
+                        try {
+                            Log.e("Frist_fragment dbdb", "여기불리냐" );
+                            Date testdate = sdf.parse(date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
                     } else {
                         eventData.clear();
+
                         Log.e("Frist_fragment dbdb", "" + eventData.size());
                     }
+
+
+
                 }
+
+
             }
 
             @Override

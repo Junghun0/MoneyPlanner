@@ -3,6 +3,8 @@ package com.example.parkjunghun.moneyplanner.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.SearchView_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
@@ -27,6 +30,7 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
 
         Log.d("First_Fragment mainac","oncreate");
 
@@ -176,6 +181,13 @@ public class MainActivity extends AppCompatActivity {
         parent.setContentInsetsAbsolute(0, 0);
 
         return true;
+    }
+
+    @OnClick(R.id.search)
+    public void searchOnclick(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.main_view3, new SearchView_Fragment()).addToBackStack(null).commit();
     }
 
     @Override

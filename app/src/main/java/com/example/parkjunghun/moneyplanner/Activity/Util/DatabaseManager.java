@@ -213,7 +213,6 @@ public class DatabaseManager {
 
     public void getCalendarEvent(String date, final ArrayList<String> eventData) {
         String[] childkey = date.split("-");
-        this.testmanagerarray = eventData;
 
         usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

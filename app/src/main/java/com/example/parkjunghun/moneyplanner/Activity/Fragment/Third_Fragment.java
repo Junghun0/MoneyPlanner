@@ -73,7 +73,6 @@ public class Third_Fragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseManager = DatabaseManager.getInstance();
     }
 
     @Nullable

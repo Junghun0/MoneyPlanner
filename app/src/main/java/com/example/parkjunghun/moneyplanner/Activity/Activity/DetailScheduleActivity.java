@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,8 +80,6 @@ public class DetailScheduleActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private String preferences;
     private NumberFormat numberFormat = NumberFormat.getInstance();
-    private ArrayList<String> arrayList = new ArrayList<>();
-    private ArrayList<String> imageList = new ArrayList<>();
     private InputMethodManager imm;
     private InputStream in;
     private Bitmap img;
@@ -90,6 +89,9 @@ public class DetailScheduleActivity extends AppCompatActivity {
     private String key2;
     private String shared_capture1;
     private String shared_capture2;
+    private Uri uri;
+    private Uri uri1;
+    private Uri uri2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +107,10 @@ public class DetailScheduleActivity extends AppCompatActivity {
         index = intent.getIntExtra("index",0);
         if (type.equals("income")) {
             receipt.setText("수입 영수증");
-            preferences = "수입 ";
+            preferences = "수입 " +days + " ";
         } else if (type.equals("outlay")) {
             receipt.setText("수출 영수증");
-            preferences = "수출 ";
+            preferences = "수출 " +days + " ";
         }
         preferences += index;
         receipt_date.setText(days);
@@ -121,30 +123,25 @@ public class DetailScheduleActivity extends AppCompatActivity {
         shared_capture1 = sharedPreferences.getString(key1,null);
         shared_capture2 = sharedPreferences.getString(key2,null);
 
-        Log.e("asd",shared_capture1 + " okok " + shared_capture2);
 
+        Log.e("asd",shared_capture1 + " ok " + shared_capture2);
         if(shared_capture1 == null && shared_capture2 == null) {
             capture1.setVisibility(View.INVISIBLE);
             capture2.setVisibility(View.INVISIBLE);
         } else if(shared_capture1 != null && shared_capture2 == null){
             capture1.setVisibility(View.VISIBLE);
-            shared_bit1 = StringToBitMap(shared_capture1);
-            capture1.setImageBitmap(shared_bit1);
+            capture1.setImageURI(Uri.parse(shared_capture1));
             capture2.setVisibility(View.INVISIBLE);
         } else if(shared_capture1 == null && shared_capture2 != null){
             capture1.setVisibility(View.INVISIBLE);
             capture2.setVisibility(View.VISIBLE);
-            shared_bit2 = StringToBitMap(shared_capture2);
-            capture2.setImageBitmap(shared_bit2);
+            capture2.setImageURI(Uri.parse(shared_capture2));
         } else {
             capture1.setVisibility(View.VISIBLE);
-            shared_bit1 = StringToBitMap(shared_capture1);
-            capture1.setImageBitmap(shared_bit1);
+            capture1.setImageURI(Uri.parse(shared_capture1));
             capture2.setVisibility(View.VISIBLE);
-            shared_bit2 = StringToBitMap(shared_capture2);
-            capture2.setImageBitmap(shared_bit2);
+            capture2.setImageURI(Uri.parse(shared_capture2));
         }
-
         String day[] = days.split("-");
         month.setText(day[1] + "월");
     }
@@ -152,18 +149,6 @@ public class DetailScheduleActivity extends AppCompatActivity {
     @OnClick(R.id.cancel_button)
     public void CancelButton() {
         editor.putString(preferences,receipt_content.getText().toString());
-        for(int i=0;i<arrayList.size();i++){
-            if(arrayList.get(i).equals(key1)){
-                Log.e("asd","okok");
-                editor.putString(key1,imageList.get(i));
-            }else{
-                Log.e("asd","okok123");
-                editor.putString(key2,imageList.get(i));
-            }
-        }
-        /*for(int i=0;i<imageList.size();i++){
-            editor.putString(arrayList.get(i),imageList.get(i));
-        }*/
         editor.commit();
         finish();
     }
@@ -200,68 +185,79 @@ public class DetailScheduleActivity extends AppCompatActivity {
 
     @OnClick(R.id.receipt_camera)
     public void receipt_camera() {
-       // if(arrayList.size() != 2) {
+        //사진 2장 되면 알아서 카메라 막아야함
             intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_PICK);
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(Intent.createChooser(intent, "다중 선택은 '포토'를 선택하세요.(최대 2장 선택 가능)"), 1);
-/*        } else {
-            Toast.makeText(getApplicationContext(),"2장 모두 사진을 등록하셨습니다. 편집하고 싶은 사진을 선택해주세요.",Toast.LENGTH_LONG).show();
-        }*/
+            startActivityForResult(intent, 1);
     }
 
     @OnClick(R.id.image_capture1)
     public void capture1(){
-        Log.e("asd","이미지 클릭하였습니다.");
+        intent = new Intent(getApplicationContext(),PopupActivity.class);
+        intent.putExtra("key",shared_capture1);
+        intent.putExtra("pre_key",key1);
+        intent.putExtra("select","capture1");
+        startActivity(intent);
     }
 
     @OnClick(R.id.image_capture2)
     public void capture2(){
-        Log.e("asd","이미지2 클릭하였습니다.");
+        intent = new Intent(getApplicationContext(),PopupActivity.class);
+        intent.putExtra("key",shared_capture2);
+        intent.putExtra("pre_key",key2);
+        intent.putExtra("select","capture2");
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
         if (requestCode == 1) {
-            // Make sure the request was successful
-            //사진 선택할때 개수 세줘야한다
             if (resultCode == RESULT_OK) {
                 try {
                     if(data.getClipData() == null){
-                        in = getContentResolver().openInputStream(data.getData());
-                        img = BitmapFactory.decodeStream(in);
-                        if(shared_capture1 == null)
-                            imageList.add(0,BitMapToString(img));
-                        else
-                            imageList.add(1,BitMapToString(img));
-                        selectImage(img);
-                    } else{
+                        uri = data.getData();
+                        setSharedPreferences(key1,key2,uri);
+                        this.grantUriPermission(this.getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                        this.getContentResolver().takePersistableUriPermission(uri,takeFlags);
+                    }
+                    /*else{
                         ClipData clipdata = data.getClipData();
                         if(clipdata.getItemCount() > 2){
                             Toast.makeText(getApplicationContext(),"사진은 최대 2장까지 선택가능합니다.",Toast.LENGTH_LONG).show();
                             return;
                         } else if(clipdata.getItemCount() == 1){
-                            in = getContentResolver().openInputStream(clipdata.getItemAt(0).getUri());
-                            img = BitmapFactory.decodeStream(in);
-                            if(shared_capture1 == null)
-                                imageList.add(0,BitMapToString(img));
-                            else
-                                imageList.add(1,BitMapToString(img));
-                            selectImage(img);
+                            uri = clipdata.getItemAt(0).getUri();
+                            setSharedPreferences(key1,key2,uri);
+                            this.grantUriPermission(this.getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                            this.getContentResolver().takePersistableUriPermission(uri,takeFlags);
                         } else if(clipdata.getItemCount() == 2){
-                            for(int i=0;i<clipdata.getItemCount(); i++){
-                                in = getContentResolver().openInputStream(clipdata.getItemAt(i).getUri());
-                                img = BitmapFactory.decodeStream(in);
-                                in.close();
-                                imageList.add(BitMapToString(img));
-                                selectImage(img);
+                            String c = sharedPreferences.getString(key1,null);
+                            String d = sharedPreferences.getString(key2,null);
+                            if(c == null && d == null) {
+                                for (int i = 0; i < clipdata.getItemCount(); i++) {
+                                    if( i==0 ){
+                                        uri1 = clipdata.getItemAt(0).getUri();
+                                        setSharedPreferences(key1, key2, uri1);
+                                        this.grantUriPermission(this.getPackageName(),uri1,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                                    } else {
+                                        uri2 = clipdata.getItemAt(1).getUri();
+                                        setSharedPreferences(key1, key2, uri2);
+                                        this.grantUriPermission(this.getPackageName(),uri2,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        final int takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(),"사진은 최대 2장까지 선택가능합니다.",Toast.LENGTH_LONG).show();
+                                return ;
                             }
                         }
-                    }
-                    in.close();
+                    }*/
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -269,40 +265,28 @@ public class DetailScheduleActivity extends AppCompatActivity {
         }
     }
 
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp=Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
-    }
+    public void setSharedPreferences(String key_capture1, String key_capture2, Uri img1){
+        String a = sharedPreferences.getString(key_capture1,null);
+        String b = sharedPreferences.getString(key_capture2,null);
 
-    public Bitmap StringToBitMap(String encodedString){
-        try{
-            byte [] encodeByte=Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        }catch(Exception e){
-            e.getMessage();
-            return null;
+        if(a != null && b != null) {
+            Toast.makeText(getApplicationContext(),"사진은 최대 2장까지 선택가능합니다.",Toast.LENGTH_LONG).show();
+            return;
         }
-    }
-
-    public void selectImage(Bitmap bItmap){
-        if(arrayList.size() == 0){
-            capture1.setImageBitmap(bItmap);
+        else if((a == null && b == null) || (a==null && b!=null)) {
+            capture1.setImageURI(img1);
             capture1.setVisibility(View.VISIBLE);
-            arrayList.add(0,key1);
-        } else if(arrayList.size() == 1){
-            if(arrayList.get(0).equals(key1)) {
-                capture2.setImageBitmap(bItmap);
-                capture2.setVisibility(View.VISIBLE);
-                arrayList.add(1,key2);
-            }else {
-                capture1.setImageBitmap(bItmap);
-                capture1.setVisibility(View.VISIBLE);
-                arrayList.add(0,key1);
-            }
+            editor.putString(key1, String.valueOf(img1));
+            editor.commit();
+        }
+        else if(a!=null && b==null){
+            capture2.setImageURI(img1);
+            capture2.setVisibility(View.VISIBLE);
+            editor.putString(key2, String.valueOf(img1));
+            editor.commit();
+        } else{
+            Toast.makeText(getApplicationContext(),"사진은 최대 2장까지 선택가능합니다.",Toast.LENGTH_LONG).show();
+            return;
         }
     }
 
@@ -358,13 +342,6 @@ public class DetailScheduleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         editor.putString(preferences,receipt_content.getText().toString());
-        for(int i=0;i<arrayList.size();i++){
-            if(arrayList.get(i).equals(key1)){
-                editor.putString(key1,imageList.get(i));
-            }else{
-                editor.putString(key2,imageList.get(i));
-            }
-        }
         editor.commit();
         super.onBackPressed();
     }
@@ -376,5 +353,4 @@ public class DetailScheduleActivity extends AppCompatActivity {
             EventBus.getDefault().unregister(this);
         }catch (Exception e){}
     }
-
 }

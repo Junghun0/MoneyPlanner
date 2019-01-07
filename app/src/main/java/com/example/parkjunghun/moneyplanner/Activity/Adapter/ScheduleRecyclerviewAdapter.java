@@ -60,7 +60,6 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         public void onClick(View v) {
             intent = new Intent(context.getContext(), DetailScheduleActivity.class);
             //이미지추가해야함
-            Log.e("asd",index + " 와");
             detailMoneyInfo = arrayList.get(getAdapterPosition());
             if(schedule_money.getCurrentTextColor() == Color.GREEN) {
                 intent.putExtra("type", "income");
@@ -79,12 +78,10 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
-        Log.e("asd","여기 " + i);
         itemViewHolder1 = itemViewHolder;
         detailMoneyInfo = arrayList.get(i);
         date = detailMoneyInfo.getSelectDate();
         key = detailMoneyInfo.getKey();
-        Log.e("asd",key + " " + date);
         index = i;
         //itemViewHolder.schedule_image.setImageResource(detailMoneyInfo.getUsingMoney());
         itemViewHolder1.schedule_name.setText(detailMoneyInfo.getSelectDate());

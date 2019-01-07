@@ -194,6 +194,7 @@ public class DatabaseManager {
     //삭제버튼 누를시 DB 삭제
     public void deleteScheduleMoneyInfo(String data,String key1){
         InMoneyList.clear(); OutMoneyList.clear();
+        InAdapter.clearItem(); OutAdapter.clearItem();
         arr = data.split("-");
         Log.e("asd1",arr[0] + arr[1] + arr[2]);
         usinginfo_databaseReference.child(key).child(arr[0]+arr[1]).child(arr[2]).orderByChild("key").equalTo(key1).addListenerForSingleValueEvent(new ValueEventListener() {

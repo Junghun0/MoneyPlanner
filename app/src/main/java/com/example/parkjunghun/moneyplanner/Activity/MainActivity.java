@@ -1,4 +1,4 @@
-package com.example.parkjunghun.moneyplanner.Activity;
+﻿package com.example.parkjunghun.moneyplanner.Activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -6,8 +6,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.SearchView_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
@@ -36,6 +37,7 @@ import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         checkPermissions(); //권한 묻기
         ButterKnife.bind(this);
+
 
         Log.d("First_Fragment mainac","oncreate");
 
@@ -188,6 +191,13 @@ public class MainActivity extends AppCompatActivity {
         parent.setContentInsetsAbsolute(0, 0);
 
         return true;
+    }
+
+    @OnClick(R.id.search)
+    public void searchOnclick(){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.add(R.id.main_view3, new SearchView_Fragment()).addToBackStack(null).commit();
     }
 
     @Override

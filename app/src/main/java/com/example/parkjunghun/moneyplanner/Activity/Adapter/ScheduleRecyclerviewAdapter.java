@@ -100,27 +100,6 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         else {
             itemViewHolder1.schedule_change.setVisibility(View.VISIBLE);
         }
-
-       /* itemViewHolder1.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-        public void onClick(View v) {
-            intent = new Intent(itemViewHolder1.itemView.getContext(),DetailScheduleActivity.class);
-            Log.e("asd",getItemCount()+ " 2");
-            if(itemViewHolder1.schedule_money.getCurrentTextColor() == Color.GREEN) {
-                intent.putExtra("type", "income");
-            }
-            else {
-                intent.putExtra("type", "outlay");
-            }
-            intent.putExtra("name",itemViewHolder1.schedule_name.getText().toString());
-            intent.putExtra("using_money",Integer.toString(detailMoneyInfo.getUsingMoney()));
-            intent.putExtra("key",key);
-            intent.putExtra("date",date);
-            intent.putExtra("index",index);
-            Log.e("asd",key);
-            itemViewHolder1.itemView.getContext().startActivity(intent);
-            }
-        });*/
     }
 
     @Override

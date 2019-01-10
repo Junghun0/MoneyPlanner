@@ -187,10 +187,11 @@
                         />
 
 
-                    <TextView
+                    <EditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/receipt_money"
+                        android:enabled="false"
                         android:layout_weight="0.5"
                         android:textSize="18dp"
                         android:textColor="#000000"

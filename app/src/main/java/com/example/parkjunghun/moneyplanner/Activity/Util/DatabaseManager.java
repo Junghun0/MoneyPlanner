@@ -39,6 +39,7 @@ public class DatabaseManager {
     private DatabaseReference calendar_eventReference;
     private String key;
     private String childKeyvalue;
+    private String money;
     private ArrayList<DetailMoneyInfo> detailMoneyInfoList = new ArrayList<>();
     private ArrayList<DetailMoneyInfo> InMoneyList = new ArrayList<>();
     private ArrayList<DetailMoneyInfo> OutMoneyList = new ArrayList<>();
@@ -48,13 +49,12 @@ public class DatabaseManager {
     private NumberFormat numberFormat;
     private TextView Income;
     private TextView Outlay;
+    private TextView textView;
     private String [] arr;
     private CompactCalendarView compactCalendarView;
+    private int sum = 0;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-d hh:mm:ss");
-
-
-
 
     public static DatabaseManager getInstance() {
         return instance;
@@ -153,17 +153,14 @@ public class DatabaseManager {
     }
 
     //일간 탭 날짜 선택시 DB 데이터 읽기
-    public void getScheduleMoneyInfo(ScheduleRecyclerviewAdapter Inadapter, ScheduleRecyclerviewAdapter Outadapter, String data, HorizontalCalendar horizontalCalendar, View view) {
+    public void getScheduleMoneyInfo(final ScheduleRecyclerviewAdapter Inadapter, final ScheduleRecyclerviewAdapter Outadapter, String data, HorizontalCalendar horizontalCalendar, View view) {
         InMoneyList.clear(); OutMoneyList.clear();
-        InAdapter = Inadapter; OutAdapter = Outadapter;
-        InAdapter.clearItem(); OutAdapter.clearItem();
-        InAdapter.notifyDataSetChanged(); OutAdapter.notifyDataSetChanged();
         horizontalCalendar1 = horizontalCalendar;
         Income = view.findViewById(R.id.IncomeMoney);
         Outlay = view.findViewById(R.id.OutlayMoney);
         String[] days = data.split(" ");
         numberFormat = NumberFormat.getInstance();
-            usinginfo_databaseReference.child(key).child(days[0]).child(days[1]).addValueEventListener(new ValueEventListener() {
+            usinginfo_databaseReference.child(key).child(days[0]).child(days[1]).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     int InSum = 0;
@@ -179,7 +176,8 @@ public class DatabaseManager {
                             OutSum += detailMoneyInfo.getUsingMoney();
                         }
                     }
-
+                    Income.setText(numberFormat.format(InSum) + "원");
+                    Outlay.setText(numberFormat.format(OutSum) + "원");
                     if(InMoneyList.size() == 0 && OutMoneyList.size() == 0){
                         horizontalCalendar1.getConfig().setFormatBottomText(" ");
                         horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.WHITE);
@@ -188,12 +186,10 @@ public class DatabaseManager {
                         horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.RED);
                     }
                     horizontalCalendar1.refresh();
-                    InAdapter.setItem(InMoneyList);
-                    InAdapter.notifyDataSetChanged();
-                    OutAdapter.setItem(OutMoneyList);
-                    OutAdapter.notifyDataSetChanged();
-                    Income.setText(numberFormat.format(InSum) + "원");
-                    Outlay.setText(numberFormat.format(OutSum) + "원");
+                    Inadapter.setItem(InMoneyList);
+                    Inadapter.notifyDataSetChanged();
+                    Outadapter.setItem(OutMoneyList);
+                    Outadapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -203,18 +199,36 @@ public class DatabaseManager {
     }
 
     //삭제버튼 누를시 DB 삭제
-    public void deleteScheduleMoneyInfo(String data,String key1){
-        InMoneyList.clear(); OutMoneyList.clear();
-        InAdapter.clearItem(); OutAdapter.clearItem();
+    public void deleteScheduleMoneyInfo(final ScheduleRecyclerviewAdapter adapter, final String type, final int index1, String key1, String data,View view){
+        //InMoneyList.clear(); OutMoneyList.clear();
+        if(type.equals("수입")){
+            textView = view.findViewById(R.id.IncomeMoney);
+        } else if(type.equals("수출")){
+            textView = view.findViewById(R.id.OutlayMoney);
+        }
         arr = data.split("-");
-        Log.e("asd1",arr[0] + arr[1] + arr[2]);
-        usinginfo_databaseReference.child(key).child(arr[0]+arr[1]).child(arr[2]).orderByChild("key").equalTo(key1).addListenerForSingleValueEvent(new ValueEventListener() {
+        usinginfo_databaseReference.child(key).child(arr[0]).child(arr[1]).orderByChild("key").equalTo(key1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot keyvalue : dataSnapshot.getChildren()) {
+                    DetailMoneyInfo detailMoneyInfo = keyvalue.getValue(DetailMoneyInfo.class);
+                    money = Integer.toString(detailMoneyInfo.getUsingMoney());
                     childKeyvalue = keyvalue.getKey();
                 }
-                usinginfo_databaseReference.child(key).child(arr[0]+arr[1]).child(arr[2]).child(childKeyvalue).removeValue();
+                int sum = 0;
+                usinginfo_databaseReference.child(key).child(arr[0]).child(arr[1]).child(childKeyvalue).removeValue();
+                String result[] = textView.getText().toString().split("원");
+                if(result[0].contains(",") || money.contains(",")){
+                    String v = result[0].replace(",","");
+                    String n = money.replace(",","");
+                    sum = Integer.parseInt(v) - Integer.parseInt(n);
+                } else{
+                    sum = Integer.parseInt(result[0]) - Integer.parseInt(money);
+                }
+                textView.setText(numberFormat.format(sum) + "원");
+                adapter.subItem(index1);
+                adapter.isShow(2);
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -236,30 +250,21 @@ public class DatabaseManager {
                         long timeMillis = Calendar.getInstance().getTimeInMillis();
                         compactCalendarView.addEvent(new Event(Color.RED,timeMillis));
                         compactCalendarView.invalidate();
-
                         try {
                             Log.e("Frist_fragment dbdb", "여기불리냐" );
                             Date testdate = sdf.parse(date);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
                     } else {
                         eventData.clear();
-
                         Log.e("Frist_fragment dbdb", "" + eventData.size());
                     }
-
-
-
                 }
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

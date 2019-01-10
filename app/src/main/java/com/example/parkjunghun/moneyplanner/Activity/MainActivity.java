@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("asd","Main.onCreate()");
+        Log.e("okok","Main.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         getIntent().getStringExtra("test");
 
+
         //viewPager 가 바뀔때 발생�는 리스
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -115,13 +117,9 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int i) {
                 if(i == 2){
                     String days[] = currentMonth.getText().toString().split(" ");
-                    //Log.e("Third_Fragment",days[0] + " " + days[1]);
                     String year[] = days[0].split("년");
                     String day[] = days[1].split("월");
-                    //Log.e("Third_Fragment",year[0] + " " + day[0]);
-                    //third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false);
-                    //Log.e("Third_Fragment",currentMonth.getText().toString());
-                    //�기�제 받아Date_update()�수 �출!;
+                    third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false,"default");
                 }
             }
 

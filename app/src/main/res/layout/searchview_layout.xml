@@ -11,35 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="5dp"
-        android:background="#d8d8de"
-        android:layout_weight="0.08" />
+        android:layout_weight="0.08"
+        android:background="#d8d8de" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:orientation="horizontal"
-        android:background="@drawable/linear_top"
-        android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="0.1"
+        android:background="@drawable/linear_top"
+        android:orientation="horizontal"
         android:weightSum="4">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="0.7"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:textStyle="bold"
-            android:text="기간"/>
+            android:layout_weight="0.7"
+            android:gravity="center_vertical"
+            android:text="기간"
+            android:textStyle="bold" />
 
 
         <android.support.design.widget.TabLayout
             android:id="@+id/searchview_tablayout"
             android:layout_width="0dp"
-            android:layout_weight="3.3"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_weight="3.3" />
 
     </LinearLayout>
 
@@ -49,7 +49,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.05"
         android:gravity="center"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,11 +66,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="카테고리"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/search_setcategory_txtview"
@@ -92,11 +92,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="지불방식"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/search_pay_txtview"
@@ -127,12 +127,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:orientation="horizontal"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_weight="0.1"
         android:background="@drawable/linear_style"
-        >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -143,56 +142,56 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textStyle="bold"
                 android:layout_marginLeft="5dp"
-                android:text="수입"/>
+                android:layout_weight="1"
+                android:text="수입"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/income_sumtxtview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="금액"
-                android:layout_marginLeft="5dp"
-                android:textColor="#5bbc0c"/>
+                android:textColor="#5bbc0c" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_marginLeft="5dp"
-                android:textStyle="bold"
-                android:text="지출"/>
+                android:layout_weight="1"
+                android:text="지출"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/spend_sumtxtview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:text="금액"
-                android:layout_marginLeft="5dp"
-                android:textColor="#d24013"/>
+                android:textColor="#d24013" />
         </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.37"
+        android:orientation="vertical">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-
-
-    </ScrollView>
-
-
+    </LinearLayout>
 </LinearLayout>

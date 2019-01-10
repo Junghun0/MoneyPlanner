@@ -112,9 +112,9 @@ public class First_Fragment extends Fragment {
         //logEventsByMonth(compactCalendarView);
 
         compactCalendarView.setUseThreeLetterAbbreviation(false);
-        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        //compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         compactCalendarView.setIsRtl(false);
-        compactCalendarView.displayOtherMonthDays(false);
+        compactCalendarView.displayOtherMonthDays(true);
 
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
 

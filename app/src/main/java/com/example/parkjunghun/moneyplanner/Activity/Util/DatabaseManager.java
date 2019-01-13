@@ -1,4 +1,4 @@
-﻿package com.example.parkjunghun.moneyplanner.Activity.Util;
+package com.example.parkjunghun.moneyplanner.Activity.Util;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -163,12 +163,12 @@ public class DatabaseManager {
     public void getScheduleMoneyInfo(final ScheduleRecyclerviewAdapter Inadapter, final ScheduleRecyclerviewAdapter Outadapter, String data, HorizontalCalendar horizontalCalendar, View view) {
         InMoneyList.clear();
         OutMoneyList.clear();
-        InAdapter = Inadapter;
+        /*InAdapter = Inadapter;
         OutAdapter = Outadapter;
         InAdapter.clearItem();
         OutAdapter.clearItem();
         InAdapter.notifyDataSetChanged();
-        OutAdapter.notifyDataSetChanged();
+        OutAdapter.notifyDataSetChanged();*/
         horizontalCalendar1 = horizontalCalendar;
         Income = view.findViewById(R.id.IncomeMoney);
         Outlay = view.findViewById(R.id.OutlayMoney);
@@ -198,7 +198,7 @@ public class DatabaseManager {
                     horizontalCalendar1.getConfig().setFormatBottomText("●");
                     horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.RED);
                 }
-                horizontalCalendar1.refresh();
+                    horizontalCalendar1.refresh();
                     Inadapter.setItem(InMoneyList);
                     Inadapter.notifyDataSetChanged();
                     Outadapter.setItem(OutMoneyList);

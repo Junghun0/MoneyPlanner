@@ -117,7 +117,6 @@ public class Third_Fragment extends Fragment {
 
     @OnClick(R.id.InChange)
     public void OnInChange(){
-        //Inadapter.subItem(0);
         Incheck++;
         Inadapter.isShow(Incheck);
         Inadapter.notifyDataSetChanged();

@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclerviewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.First_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
-import com.example.parkjunghun.moneyplanner.Activity.Util.DatabaseManager;
 import com.example.parkjunghun.moneyplanner.R;
 
 import java.util.ArrayList;
@@ -55,17 +54,13 @@ public class DetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.delete_button)
     public void onClickDelete() {
-        //DatabaseManager.getInstance().deleteMoneyInfo(moneyInfo.getKey(),moneyInfo.getSelectDate());
-        Log.e("database","Detailac->"+recycler_index+"getkey->"+moneyInfo.getKey());
-        DatabaseManager.getInstance().deleteMoneyInfo2(adapter, moneyInfo.getKey(),moneyInfo.getSelectDate(), recycler_index);
         Toast.makeText(this, "데이터가삭제되었습니다.", Toast.LENGTH_SHORT).show();
-        adapter.notifyItemRemoved(recycler_index);
         Intent intent2 = new Intent(this, MainActivity.class);
         intent2.putExtra("index",recycler_index);
         intent2.putExtra("key",moneyInfo.getKey());
         intent2.putExtra("date",date);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent2);
-        finish();
     }
 
     @Override

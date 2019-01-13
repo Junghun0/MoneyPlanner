@@ -18,14 +18,9 @@ import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ScheduleRecyclerviewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
-import com.example.parkjunghun.moneyplanner.Activity.Model.ScheduleViewItem;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
+import com.example.parkjunghun.moneyplanner.Activity.Util.DatabaseManager;
 import com.example.parkjunghun.moneyplanner.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -42,13 +37,16 @@ public class Third_Fragment extends Fragment {
 
     private HorizontalCalendar horizontalCalendar;
     private HorizontalCalendar.Builder builder;
-    private ScheduleRecyclerviewAdapter adapter;
+    private ScheduleRecyclerviewAdapter Inadapter;
+    private ScheduleRecyclerviewAdapter Outadapter;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.LayoutManager layoutManager1;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
     private TextView textView;
-    private ArrayList<ScheduleViewItem> viewItemArrayList;
+    private ArrayList<DetailMoneyInfo> InviewItemArrayList  = new ArrayList<>();
+    private ArrayList<DetailMoneyInfo> OutviewItemArrayList  = new ArrayList<>();
+    private DatabaseManager databaseManager;
+    private int Incheck = 0;
+    private int Outcheck = 0;
     @BindView(R.id.IncomeMoney)
     TextView InMoney;
     @BindView(R.id.OutlayMoney)
@@ -65,116 +63,105 @@ public class Third_Fragment extends Fragment {
     RecyclerView InRecyclerView;
     @BindView(R.id.OutRecyclerview)
     RecyclerView OutRecyclerView;
+    private View view;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //테스트
-        init();
-    }
-
-    //그냥 넣어 본것
-    public void init(){
-        viewItemArrayList = new ArrayList<>();
-        viewItemArrayList.add(new ScheduleViewItem(R.drawable.ic_mood_black_24dp,"asd","wdwdw",R.drawable.ic_loop_black_24dp));
-        viewItemArrayList.add(new ScheduleViewItem(R.drawable.ic_mood_black_24dp,"0o0o0o0","okok",R.drawable.ic_loop_black_24dp));
-        for(int i=0;i<30;i++)
-            viewItemArrayList.add(new ScheduleViewItem(R.drawable.ic_loop_black_24dp,"0o0o0o0","okok",R.drawable.ic_loop_black_24dp));
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.third_fragment_layout, container, false);
+        view = inflater.inflate(R.layout.third_fragment_layout, container, false);
         ButterKnife.bind(this, view);
-
         textView = (TextView)getActivity().findViewById(R.id.current_month);
         Calendar start = Calendar.getInstance();
         start.add(Calendar.YEAR,-10);
         Calendar end = Calendar.getInstance();
         end.add(Calendar.YEAR,10);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-        //파이어베이스로 현재 날짜의
-        //Log.e("Third_Fragment",start.get(Calendar.MONTH)+1 + "");
-        //Log.e("Third_Fragment",start.get(Calendar.DAY_OF_MONTH) + "");
-
         builder = new HorizontalCalendar.Builder(view,R.id.calendarView)
                 .range(start,end)
                 .datesNumberOnScreen(7)
                 .configure()
                 .formatTopText("EEE")
                 .formatMiddleText("dd")
-                .formatBottomText("●")
+                .formatBottomText(" ")
                 .textSize(12f, 20f, 7f)
                 .showTopText(true)
                 .showBottomText(true)
                 .textColor(Color.BLACK, Color.RED)
                 .colorTextBottom(Color.WHITE,Color.WHITE)
                 .end();
-
-        //textView 날짜가 파이어베이스에 데이터가 있다면 색깔 바꿔줘야함!
-        //builder.configure().colorTextBottom(Color.WHITE,Color.BLACK);
-        //builder.configure().colorTextBottom(Color.WHITE,Color.BLACK);
-
         horizontalCalendar = builder.build();
-
-        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Calendar date, int position) {
-                //여기에서도 만약 선택된 날짜가 파이어베이스안에 데이터가 있다면 점 색깔 바꿔줘야함!
-                if(date.get(Calendar.DAY_OF_MONTH) > 0){
-                    textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
-                    horizontalCalendar.getSelectedItemStyle().setColorBottomText(Color.RED);
-                    horizontalCalendar.refresh();
-                    //Log.e("Third_Fragment","여기 뭐임");
-                }
-            }
-        });
-
-//        InRecyclerView.setHasFixedSize(true);
-        /*
-        ViewGroup.LayoutParams layoutParams= InRecyclerView.getLayoutParams();
-        layoutParams.height = layoutParams.width;
-        InRecyclerView.setLayoutParams(layoutParams);
-        */
         layoutManager = new LinearLayoutManager(getActivity());
         layoutManager1 = new LinearLayoutManager(getActivity());
         InRecyclerView.setLayoutManager(layoutManager);
-        adapter = new ScheduleRecyclerviewAdapter(viewItemArrayList);
-        InRecyclerView.setAdapter(adapter);
+        Inadapter = new ScheduleRecyclerviewAdapter(this,InviewItemArrayList);
+        Outadapter = new ScheduleRecyclerviewAdapter(this,OutviewItemArrayList);
+        InRecyclerView.setAdapter(Inadapter);
         OutRecyclerView.setLayoutManager(layoutManager1);
-        OutRecyclerView.setAdapter(adapter);
+        OutRecyclerView.setAdapter(Outadapter);
+        horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Calendar date, int position) {
+                if(date.get(Calendar.DAY_OF_MONTH) > 0){
+                    String data = Integer.toString(date.get(Calendar.YEAR)) + Integer.toString(date.get(Calendar.MONTH)+1) + " " + Integer.toString(date.get(Calendar.DAY_OF_MONTH));
+                    DatabaseManager.getInstance().getScheduleMoneyInfo(Inadapter,Outadapter,data,horizontalCalendar,view);
+                    textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
+                }
+            }
+        });
         return view;
     }
 
     @OnClick(R.id.InChange)
     public void OnInChange(){
-        Log.e("asd","여기 눌러");
+        Incheck++;
+        Inadapter.isShow(Incheck);
+        Inadapter.notifyDataSetChanged();
+        if(Incheck == 10)
+            Incheck = 0;
     }
 
     @OnClick(R.id.OutChange)
     public void OnOutChange(){
-        Log.e("asd","나도 여기");
+        Outcheck++;
+        Outadapter.isShow(Outcheck);
+        Outadapter.notifyDataSetChanged();
+        if(Outcheck == 10)
+            Outcheck = 0;
     }
 
     //중요한 함수임!
-    public void Date_Update(int year, int month, boolean check){
+    public void Date_Update(int year, int month, boolean check,String index1){
+        Log.e("okok",index1);
         if(check == true){
-//            Log.e("Third_Fragment","여기들어옴");
+            String in[] = index1.split(" ");
+            String sum = Integer.toString(year) + "-" + Integer.toString(month);
+            // in[0] -> 수출, 수입
+            // in[1] -> DB
+            // in[2] -> index
+            // in[3] -> key
+            if(in[0].equals("수입")){
+                DatabaseManager.getInstance().deleteScheduleMoneyInfo(Inadapter,in[0],Integer.parseInt(in[2]),in[3],sum,view);
+            } else if(in[0].equals("수출")){
+                DatabaseManager.getInstance().deleteScheduleMoneyInfo(Outadapter,in[0],Integer.parseInt(in[2]),in[3],sum,view);
+            }
         }else{
             Calendar startC = Calendar.getInstance();
             startC.set(Calendar.YEAR,year);
-            if(month-1 != startC.get(Calendar.MONTH)){
+            startC.set(Calendar.MONTH,month-1);
+            startC.set(Calendar.DAY_OF_MONTH,30);
+            /*Outadapter.isShow(2);
+            Inadapter.isShow(2);
+            Inadapter.notifyDataSetChanged();
+            Outadapter.notifyDataSetChanged();*/
+            /*if(month-1 != startC.get(Calendar.MONTH)){
                 startC.set(Calendar.MONTH,month-1);
                 startC.set(Calendar.DAY_OF_MONTH,1);
-            }
-
- /*           Calendar endC = Calendar.getInstance();
-            endC.set(Calendar.YEAR,year +10);
-            Log.e("Third_Fragment",startC.get(Calendar.MONTH)+1 + " " + startC.get(Calendar.DAY_OF_MONTH) + " " + startC.get(Calendar.YEAR));
-            Log.e("Third_Fragment",endC.get(Calendar.MONTH)+1 + " " + endC.get(Calendar.DAY_OF_MONTH) + " " + endC.get(Calendar.YEAR));
-  */         horizontalCalendar.selectDate(startC,true);
+            } else*/
+            horizontalCalendar.selectDate(startC,true);
             //horizontalCalendar.setRange(startC,endC);
             horizontalCalendar.refresh();
         }
@@ -182,8 +169,16 @@ public class Third_Fragment extends Fragment {
 
     @Subscribe
     public void testEvent(Weekly_Update_Event event) {
-        //Log.e("Third_Fragment",event.year + " " + event.month);
-        Date_Update(event.year, event.month, false);
+        if(event.update.startsWith("수입") || event.update.startsWith("수출")){
+            Date_Update(event.year, event.month, true,event.update);
+        }else {
+            Date_Update(event.year, event.month, false,"default");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -197,8 +192,5 @@ public class Third_Fragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        try{
-            EventBus.getDefault().unregister(this);
-        }catch (Exception e){}
     }
 }

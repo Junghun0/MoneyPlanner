@@ -1,56 +1,120 @@
 package com.example.parkjunghun.moneyplanner.Activity.Adapter;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import com.example.parkjunghun.moneyplanner.Activity.Model.ScheduleViewItem;
+import com.example.parkjunghun.moneyplanner.Activity.Activity.DetailScheduleActivity;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
+import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
 import com.example.parkjunghun.moneyplanner.R;
 
 public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRecyclerviewAdapter.ItemViewHolder>{
 
-    private ArrayList<ScheduleViewItem> arrayList;
+    private Third_Fragment context;
+    private ArrayList<DetailMoneyInfo> arrayList;
+    private NumberFormat numberFormat = NumberFormat.getInstance();
+    private ItemViewHolder itemViewHolder1;
+    private Intent intent;
+    private String date;
+    private String key;
+    private int index;
+    private DetailMoneyInfo detailMoneyInfo;
 
-    public ScheduleRecyclerviewAdapter(ArrayList<ScheduleViewItem> arrayList){
+    private boolean isCheck = true;
 
+    public ScheduleRecyclerviewAdapter(Third_Fragment third_fragment,ArrayList<DetailMoneyInfo> arrayList){
+        this.context = third_fragment;
         this.arrayList = arrayList;
-
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder{
+    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private ImageView schedule_image;
-        private TextView schedule_name;
-        private TextView schedule_money;
-        private ImageView schedule_change;
+            private ImageView schedule_image;
+            private TextView schedule_name;
+            private TextView schedule_money;
+            private ImageView schedule_change;
 
-        ItemViewHolder(View itemView){
-            super(itemView);
-            schedule_image = (ImageView)itemView.findViewById(R.id.schedule_image);
-            schedule_name = (TextView)itemView.findViewById(R.id.schedule_name);
-            schedule_money = (TextView)itemView.findViewById(R.id.schedule_money);
-            schedule_change = (ImageView)itemView.findViewById(R.id.schedule_change);
+            ItemViewHolder(View itemView){
+                super(itemView);
+        schedule_image = (ImageView)itemView.findViewById(R.id.schedule_image);
+        schedule_name = (TextView)itemView.findViewById(R.id.schedule_name);
+        schedule_money = (TextView)itemView.findViewById(R.id.schedule_money);
+        schedule_change = (ImageView)itemView.findViewById(R.id.schedule_change);
+        schedule_change.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            intent = new Intent(context.getContext(), DetailScheduleActivity.class);
+            //이미지추가해야함
+            detailMoneyInfo = arrayList.get(getAdapterPosition());
+            if(schedule_money.getCurrentTextColor() == Color.GREEN) {
+                intent.putExtra("type", "income");
+            }
+            else {
+                intent.putExtra("type", "outlay");
+            }
+            intent.putExtra("date",detailMoneyInfo.getSelectDate());
+            intent.putExtra("key",detailMoneyInfo.getKey());
+            intent.putExtra("name",schedule_name.getText().toString());
+            intent.putExtra("using_money",Integer.toString(detailMoneyInfo.getUsingMoney()));
+            intent.putExtra("index",getAdapterPosition());
+            context.startActivity(intent);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, int i) {
-        itemViewHolder.schedule_image.setImageResource(arrayList.get(i).getImage());
-        itemViewHolder.schedule_name.setText(arrayList.get(i).getName());
-        itemViewHolder.schedule_money.setText(arrayList.get(i).getMoney());
-        itemViewHolder.schedule_change.setImageResource(arrayList.get(i).getChange_image());
+        itemViewHolder1 = itemViewHolder;
+        detailMoneyInfo = arrayList.get(i);
+        date = detailMoneyInfo.getSelectDate();
+        key = detailMoneyInfo.getKey();
+        index = i;
+        //itemViewHolder.schedule_image.setImageResource(detailMoneyInfo.getUsingMoney());
+        itemViewHolder1.schedule_name.setText(detailMoneyInfo.getSelectDate());
+        itemViewHolder1.schedule_change.setImageResource(R.drawable.ic_loop_black_24dp);
+        if(detailMoneyInfo.getType().equals("수입")){
+            itemViewHolder1.schedule_money.setTextColor(Color.GREEN);
+            itemViewHolder1.schedule_change.setColorFilter(Color.GREEN);
+        }else if(detailMoneyInfo.getType().equals("지출")){
+            itemViewHolder1.schedule_money.setTextColor(Color.RED);
+            itemViewHolder1.schedule_change.setColorFilter(Color.RED);
+        }
+        itemViewHolder1.schedule_money.setText(numberFormat.format(detailMoneyInfo.getUsingMoney()) + "원");
+        if(isCheck == true) {
+            itemViewHolder1.schedule_change.setVisibility(View.INVISIBLE);
+        }
+        else {
+            itemViewHolder1.schedule_change.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
     }
 
     @NonNull
@@ -59,4 +123,25 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_recyclerview,viewGroup,false);
         return new ItemViewHolder(view);
     }
+
+    public void setItem(ArrayList<DetailMoneyInfo> dataList) {
+        this.arrayList = dataList;
+    }
+
+    public void subItem(int index) {
+        arrayList.remove(index);
+    }
+
+    public void clearItem(){
+        arrayList.clear();
+    }
+
+    public void isShow(int check){
+        if(check % 2 == 1){
+            isCheck = false;
+        } else{
+            isCheck = true;
+        }
+    }
+
 }

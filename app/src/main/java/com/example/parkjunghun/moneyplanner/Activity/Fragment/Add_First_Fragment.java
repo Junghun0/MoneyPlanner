@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,8 @@ public class Add_First_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_first_fragment_layout, container, false);
         ButterKnife.bind(this, view);
+
+        Log.e("First_Fragment","add_first oncreateview......");
         if(getArguments() != null){
             selectDate = getArguments().getString("selectDate");
         }
@@ -103,7 +106,12 @@ public class Add_First_Fragment extends Fragment {
             fragmentTransaction.replace(R.id.main_view2, Add_Secondspend_Fragment.newInstance(selectDate, usingMoney)).commit();
             inputMethodManager.hideSoftInputFromWindow(add_edit1.getWindowToken(), 0);
         }
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("First_Fragment","add_first ondestroy......");
     }
 }
 

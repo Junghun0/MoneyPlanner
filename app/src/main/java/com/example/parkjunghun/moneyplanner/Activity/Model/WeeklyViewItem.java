@@ -1,14 +1,11 @@
 package com.example.parkjunghun.moneyplanner.Activity.Model;
 
-import android.widget.LinearLayout;
-
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.WeeklyViewAdapter;
 
 public class WeeklyViewItem extends WeeklyViewAdapter {
 
     private String weekely_date, week_number, weekly_money;
-    private String[] chart_date;
-    private LinearLayout show_chart;
+    private String[] chart_date,db_date;
 
     public void setWeekely_date(String date_from){
         this.weekely_date = date_from;
@@ -42,12 +39,12 @@ public class WeeklyViewItem extends WeeklyViewAdapter {
         return chart_date;
     }
 
-    public void set_ShowChart(LinearLayout show_chart){
-        this.show_chart = show_chart;
+    public void set_DBDate(String[] db_date){
+        this.db_date = db_date;
     }
 
-    public LinearLayout get_ShowChart(){
-        return show_chart;
+    public String[] get_DBDate(){
+        return db_date;
     }
 
 }

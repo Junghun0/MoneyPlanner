@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclerviewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
+import com.github.mikephil.charting.data.Entry;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +26,6 @@ public class DatabaseManager {
     private String key;
     private String childKeyvalue;
     private ArrayList<DetailMoneyInfo> detailMoneyInfoList = new ArrayList<>();
-    private ArrayList<DetailMoneyInfo> testmanagerarray = new ArrayList<>();
 
     public static DatabaseManager getInstance() {
         return instance;
@@ -48,6 +48,27 @@ public class DatabaseManager {
             }
         });
     }
+
+    public void getMoneyChart(String date){
+        final String[] childkey = date.split("-");
+        if(childkey[1].length() == 1)
+            childkey[1] = "0"+childkey[1];
+
+        usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int sum=0;
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    DetailMoneyInfo detailMoneyInfo = data.getValue(DetailMoneyInfo.class);
+                    sum += detailMoneyInfo.getUsingMoney();
+                }
+                Log.e("getMoneyChart", childkey[0] + "," + childkey[1] + "," + childkey[2]+" sum: " + sum);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+    }
+
 
     //db 데이터 가져오기
     public void getMoneyInfo(final CalendarRecyclerviewAdapter adapter, String date) {
@@ -123,4 +144,5 @@ public class DatabaseManager {
         });
         Log.d("database", "" + childKeyvalue);
     }
+
 }

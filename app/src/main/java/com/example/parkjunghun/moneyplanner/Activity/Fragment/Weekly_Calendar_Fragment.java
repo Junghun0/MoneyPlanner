@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,44 +32,55 @@ public class Weekly_Calendar_Fragment extends Fragment {
     @BindView(R.id.weekly_listview)
     ListView weekly_ListView;
     LineChart lineChart;
-    LinearLayout chart_Layout;
 
     Calendar mCal;
     WeeklyViewAdapter weekly_Adapter;
     Weekly_CalendarFunction function;
+
+    int clickposition = -1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.weekly_fragment, container, false);
-        View customView = inflater.inflate(R.layout.weekly_customview, container, false);
         ButterKnife.bind(this, view);
 
-        chart_Layout = (LinearLayout) customView.findViewById(R.id.chart_layout);
         mCal = Calendar.getInstance();
         function = new Weekly_CalendarFunction();
         weekly_Adapter = new WeeklyViewAdapter();
 
         function.sep_Calendar(weekly_Adapter, mCal.get(Calendar.YEAR), mCal.get(Calendar.MONTH) + 1);
+
+        //리스트뷰 SET
         weekly_ListView.setAdapter(weekly_Adapter);
+        //리스트뷰 아이템 클릭시
         weekly_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                chart_Layout = (LinearLayout) view.findViewById(R.id.chart_layout);
                 lineChart = (LineChart) view.findViewById(R.id.chart);
-                if (chart_Layout.getVisibility() == View.GONE) {
-                    chart_Layout.setVisibility(View.VISIBLE);
-                    weekly_Adapter.show_Chart(i, lineChart);
-                } else {
-                    chart_Layout.setVisibility(View.GONE);
+
+                if(clickposition > -1){
+                    int viewposition = clickposition - weekly_ListView.getFirstVisiblePosition();
+                    if(viewposition > -1 && viewposition < weekly_ListView.getChildCount()) {
+                        View perviousView = weekly_ListView.getChildAt(viewposition);
+                        LinearLayout chart_Layout = (LinearLayout) perviousView.findViewById(R.id.chart_layout);
+                        chart_Layout.setVisibility(View.GONE);
+                    }
                 }
+                LinearLayout chart_Layout  = (LinearLayout)view.findViewById(R.id.chart_layout);
+                chart_Layout.setVisibility(View.VISIBLE);
+                weekly_Adapter.show_Chart(i, lineChart);
+
+                clickposition = i;
             }
+
         });
 
         return view;
     }
 
+    //메인 엑티비티 날짜 옆으로 눌렀을때
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void weekly_Change_Event(Weekly_Update_Event event) {
         weekly_Adapter.removeAll();

@@ -11,13 +11,9 @@ import com.example.parkjunghun.moneyplanner.Activity.Adapter.CalendarRecyclervie
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ScheduleRecyclerviewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.SearchRecyclerViewAdapter;
 import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
-<<<<<<< HEAD
-import com.github.mikephil.charting.data.Entry;
-=======
 import com.example.parkjunghun.moneyplanner.R;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
->>>>>>> f6fe6b6c072684006e67bc5b536a23f344524b3c
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -48,8 +44,6 @@ public class DatabaseManager {
     private String childKeyvalue;
     private String money;
     private ArrayList<DetailMoneyInfo> detailMoneyInfoList = new ArrayList<>();
-<<<<<<< HEAD
-=======
     private ArrayList<DetailMoneyInfo> InMoneyList = new ArrayList<>();
     private ArrayList<DetailMoneyInfo> OutMoneyList = new ArrayList<>();
     private ScheduleRecyclerviewAdapter InAdapter;
@@ -62,7 +56,6 @@ public class DatabaseManager {
     private String[] arr;
     private CompactCalendarView compactCalendarView;
     private int sum = 0;
->>>>>>> f6fe6b6c072684006e67bc5b536a23f344524b3c
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
     private ArrayList<DetailMoneyInfo> searchDetailMoneyList = new ArrayList<>();
@@ -92,26 +85,27 @@ public class DatabaseManager {
         });
     }
 
-    public void getMoneyChart(String date){
+    public void getMoneyChart(String date) {
         final String[] childkey = date.split("-");
-        if(childkey[1].length() == 1)
-            childkey[1] = "0"+childkey[1];
+        if (childkey[1].length() == 1)
+            childkey[1] = "0" + childkey[1];
 
         usinginfo_databaseReference.child(key).child(childkey[0] + childkey[1]).child(childkey[2]).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int sum=0;
-                for(DataSnapshot data : dataSnapshot.getChildren()){
+                int sum = 0;
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
                     DetailMoneyInfo detailMoneyInfo = data.getValue(DetailMoneyInfo.class);
                     sum += detailMoneyInfo.getUsingMoney();
                 }
-                Log.e("getMoneyChart", childkey[0] + "," + childkey[1] + "," + childkey[2]+" sum: " + sum);
+                Log.e("getMoneyChart", childkey[0] + "," + childkey[1] + "," + childkey[2] + " sum: " + sum);
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         });
     }
-
 
     //db 데이터 가져오기
     public void getMoneyInfo(final CalendarRecyclerviewAdapter adapter, String date) {
@@ -187,9 +181,6 @@ public class DatabaseManager {
         });
     }
 
-<<<<<<< HEAD
-}
-=======
     //일간 탭 날짜 선택시 DB 데이터 읽기
     public void getScheduleMoneyInfo(final ScheduleRecyclerviewAdapter Inadapter, final ScheduleRecyclerviewAdapter Outadapter, String data, HorizontalCalendar horizontalCalendar, View view) {
         InMoneyList.clear();
@@ -205,7 +196,7 @@ public class DatabaseManager {
         Outlay = view.findViewById(R.id.OutlayMoney);
         String[] days = data.split(" ");
         numberFormat = NumberFormat.getInstance();
-            usinginfo_databaseReference.child(key).child(days[0]).child(days[1]).addListenerForSingleValueEvent(new ValueEventListener() {
+        usinginfo_databaseReference.child(key).child(days[0]).child(days[1]).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int InSum = 0;
@@ -220,8 +211,8 @@ public class DatabaseManager {
                         OutSum += detailMoneyInfo.getUsingMoney();
                     }
                 }
-                    Income.setText(numberFormat.format(InSum) + "원");
-                    Outlay.setText(numberFormat.format(OutSum) + "원");
+                Income.setText(numberFormat.format(InSum) + "원");
+                Outlay.setText(numberFormat.format(OutSum) + "원");
                 if (InMoneyList.size() == 0 && OutMoneyList.size() == 0) {
                     horizontalCalendar1.getConfig().setFormatBottomText(" ");
                     horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.WHITE);
@@ -229,11 +220,11 @@ public class DatabaseManager {
                     horizontalCalendar1.getConfig().setFormatBottomText("●");
                     horizontalCalendar1.getSelectedItemStyle().setColorBottomText(Color.RED);
                 }
-                    horizontalCalendar1.refresh();
-                    Inadapter.setItem(InMoneyList);
-                    Inadapter.notifyDataSetChanged();
-                    Outadapter.setItem(OutMoneyList);
-                    Outadapter.notifyDataSetChanged();
+                horizontalCalendar1.refresh();
+                Inadapter.setItem(InMoneyList);
+                Inadapter.notifyDataSetChanged();
+                Outadapter.setItem(OutMoneyList);
+                Outadapter.notifyDataSetChanged();
             }
 
             @Override
@@ -532,4 +523,3 @@ public class DatabaseManager {
     }
 
 }
->>>>>>> f6fe6b6c072684006e67bc5b536a23f344524b3c

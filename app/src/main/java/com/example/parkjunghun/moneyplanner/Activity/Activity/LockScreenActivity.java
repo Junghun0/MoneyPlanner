@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.LockButtonAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.MainActivity;
 import com.example.parkjunghun.moneyplanner.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,8 +45,12 @@ public class LockScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lock_screen);
+
+        //FLAG_SHOW_WHEN_LOCKED -> 안드로이드 기본 화면보다 이 Activity를 띄워라.
+        //FALG_DISMISS_KEYBOARD -> 안드로이드 기본 잠금화면을 없애라.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
         ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -54,7 +59,10 @@ public class LockScreenActivity extends AppCompatActivity {
         intent = getIntent();
         if(intent.getStringExtra("push").equals("register")){
             comment.setText("새로 등록할 비밀번호를 입력해 주세요.");
-        } else {
+        }  else if(intent.getStringExtra("push").equals("pass")){
+            comment.setText("비밀번호를 입력해 주세요.");
+        }
+        else {
             comment.setText("현재 비밀번호를 입력해 주세요.");
         }
         lockButtonAdapter.setOnMyItemCheckedChanged(new LockButtonAdapter.OnMyItemCheckedChanged() {
@@ -95,23 +103,29 @@ public class LockScreenActivity extends AppCompatActivity {
 
     public void password_register(String[] arr, int count){
         if(password_1.getText().equals("") && password_2.getText().equals("") && password_3.getText().equals("") && password_4.getText().equals("")){
-            password_1.setText(arr[count]);
+            password_1.setText("*");
             result += arr[count];
         } else if(!password_1.getText().equals("") && password_2.getText().equals("") && password_3.getText().equals("") && password_4.getText().equals("")){
-            password_2.setText(arr[count]);
+            password_2.setText("*");
             result += arr[count];
         } else if(!password_1.getText().equals("") && !password_2.getText().equals("") && password_3.getText().equals("") && password_4.getText().equals("")){
-            password_3.setText(arr[count]);
+            password_3.setText("*");
             result += arr[count];
         } else if(!password_1.getText().equals("") && !password_2.getText().equals("") && !password_3.getText().equals("") && password_4.getText().equals("")){
-            password_4.setText(arr[count]);
+            password_4.setText("*");
             result += arr[count];
+            if(comment.getText().toString().startsWith("비밀번호")){
+                if(sharedPreferences.getString("password",null).equals(result)){
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),"정확하지 않습니다. 다시 입력해주세요.",Toast.LENGTH_LONG).show();
+                }
+            }
             if(comment.getText().toString().startsWith("새로")){
                 comment.setText("한번 더 입력해 주세요.");
-                password_1.setText(""); password_2.setText("");
-                password_3.setText(""); password_4.setText("");
                 check = result;
-                result = "";
             } else if(comment.getText().toString().startsWith("한번")){
                 Log.e("okok","여기?" + check + result);
                 if(result.equals(check)){
@@ -121,24 +135,20 @@ public class LockScreenActivity extends AppCompatActivity {
                     EventBus.getDefault().post(new String("등록"));
                     finish();
                 } else {
-                    password_1.setText(""); password_2.setText("");
-                    password_3.setText(""); password_4.setText("");
-                    comment.setText("일치하지 않습니다. 다시 새로 등록할 비밀번호를 입력해 주세요.");
-                    result = "";
+                    Toast.makeText(getApplicationContext(),"새로 등록할 비밀번호가 일치하지 않습니다.",Toast.LENGTH_LONG).show();
+                    comment.setText("새로 등록할 비밀번호를 입력해 주세요.");
                 }
             } else if(comment.getText().toString().startsWith("현재")){
                 if(sharedPreferences.getString("password",null).equals(result)){
-                    password_1.setText(""); password_2.setText("");
-                    password_3.setText(""); password_4.setText("");
                     comment.setText("새로 등록할 비밀번호를 입력해 주세요.");
-                    result = "";
                 } else{
                     Toast.makeText(getApplicationContext(),"현재 비밀번호가 일치하지 않습니다.",Toast.LENGTH_LONG).show();
-                    password_1.setText(""); password_2.setText("");
-                    password_3.setText(""); password_4.setText("");
-                    result = "";
                 }
             }
+            password_1.setText(""); password_2.setText("");
+            password_3.setText(""); password_4.setText("");
+            result = "";
+            Log.e("okok","여긴?");
         }
     }
     @Override
@@ -150,4 +160,5 @@ public class LockScreenActivity extends AppCompatActivity {
 
         }
     }
+
 }

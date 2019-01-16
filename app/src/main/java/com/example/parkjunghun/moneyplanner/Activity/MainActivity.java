@@ -266,4 +266,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
 }

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import com.example.parkjunghun.moneyplanner.Activity.Activity.LockScreenActivity;
-import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -92,6 +92,7 @@ public class Fourth_Fragment extends Fragment {
     @Subscribe
     public void testEvent(String event) {
         if(event.equals("등록")){
+            Log.e("okok","요기");
             register.setEnabled(false);
             register.setClickable(false);
             change.setEnabled(true);

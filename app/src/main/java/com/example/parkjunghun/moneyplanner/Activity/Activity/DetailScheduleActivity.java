@@ -366,4 +366,5 @@ public class DetailScheduleActivity extends AppCompatActivity {
 
         }
     }
+
 }

@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:orientation="vertical"
         android:weightSum="1"
         >
@@ -43,6 +43,7 @@
                 android:textSize="28dp"
                 android:layout_gravity="center"
                 />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -135,19 +136,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
         >
 
         <GridView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/password_gridview"
-            android:verticalSpacing="15dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:horizontalSpacing="10dip"
-            android:stretchMode="columnWidth"
             android:numColumns="3"
-            >
-        </GridView>
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="15dip"></GridView>
 
     </LinearLayout>
 

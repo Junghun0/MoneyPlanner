@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.First_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.SearchView_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         //intent = getIntent();
         //Log.e("asd",Integer.toString(getIntent().getIntExtra("position",2)));
         third_fragment = new Third_Fragment();
-
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this,third_fragment);
 
         viewPager.setAdapter(viewPagerAdapter);
@@ -115,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
+                if(i==0){
+                    EventBus.getDefault().post(new Weekly_Update_Event("update",year,month));
+                }
                 if(i == 2){
                     String days[] = currentMonth.getText().toString().split(" ");
                     String year[] = days[0].split("년");

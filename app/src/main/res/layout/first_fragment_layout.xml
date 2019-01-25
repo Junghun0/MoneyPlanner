@@ -64,11 +64,9 @@
                         android:layout_marginBottom="15dp"
                         android:background="@drawable/button"
                         android:src="@drawable/plus_img" />
-
                 </FrameLayout>
+
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
-
-
 </LinearLayout>

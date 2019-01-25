@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -22,6 +21,7 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -29,10 +29,10 @@
         <activity android:name=".Activity.Activity.DetailScheduleActivity" />
         <activity
             android:name=".Activity.Activity.PopupActivity"
-            android:theme="@android:style/Theme.Dialog"></activity>
-
-        <activity android:name=".Activity.Activity.LockScreenActivity"></activity>
-
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".Activity.Activity.LockScreenActivity" />
+        <activity android:name=".Activity.Activity.StartDaySettingActivity"
+            android:theme="@android:style/Theme.Dialog" ></activity>
     </application>
 
 </manifest>

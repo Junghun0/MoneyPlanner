@@ -24,6 +24,7 @@
                     android:text="전체"/>
 
                 <CheckBox
+                    android:id="@+id/dialog_selected_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -43,6 +44,7 @@
                 android:text="현금"/>
 
             <CheckBox
+                android:id="@+id/dialog_selected_cash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -61,6 +63,7 @@
                 android:text="카드"/>
 
             <CheckBox
+                android:id="@+id/dialog_selected_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -79,6 +82,7 @@
                 android:text="체크카드"/>
 
             <CheckBox
+                android:id="@+id/dialog_selected_checkcard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

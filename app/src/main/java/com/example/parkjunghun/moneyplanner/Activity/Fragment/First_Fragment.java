@@ -31,6 +31,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -276,6 +277,14 @@ public class First_Fragment extends Fragment {
             //데이터 지웠을때
             DatabaseManager.getInstance().deleteMoneyInfo2(adapter, getActivity().getIntent().getStringExtra("key"),
                     getActivity().getIntent().getStringExtra("date"), getActivity().getIntent().getIntExtra("index", 0));
+            try {
+                Date date = (new SimpleDateFormat("yyyy-MM-dd").parse(getActivity().getIntent().getStringExtra("date")));
+                compactCalendarView.setCurrentDate(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
         }
     }
 

@@ -23,6 +23,14 @@ public class DetailMoneyInfo implements Serializable {
         this.usingMoney = usingMoney;
     }
 
+    public DetailMoneyInfo(String key, String type, String selectDate, int usingMoney, String imgUrl) {
+        this.key = key;
+        this.type = type;
+        this.selectDate = selectDate;
+        this.usingMoney = usingMoney;
+        this.imgUrl = imgUrl;
+    }
+
     public String getKey() {
         return key;
     }

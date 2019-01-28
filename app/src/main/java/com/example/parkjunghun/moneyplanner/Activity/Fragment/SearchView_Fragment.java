@@ -1,5 +1,7 @@
 package com.example.parkjunghun.moneyplanner.Activity.Fragment;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,6 +49,8 @@ public class SearchView_Fragment extends Fragment {
     TextView income_sumtxtview;
     @BindView(R.id.spend_sumtxtview)
     TextView spend_sumtxtview;
+    @BindView(R.id.main_searchView)
+    android.support.v7.widget.SearchView main_searchView;
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
     private ArrayList<DetailMoneyInfo> searchData = new ArrayList<>();
@@ -129,6 +133,12 @@ public class SearchView_Fragment extends Fragment {
         searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(this, searchData);
         search_recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         search_recyclerview.setAdapter(searchRecyclerViewAdapter);
+
+
+        SearchManager searchManager = (SearchManager)getActivity().getSystemService(Context.SEARCH_SERVICE);
+        main_searchView.onActionViewExpanded();
+
+
 
         return view;
     }

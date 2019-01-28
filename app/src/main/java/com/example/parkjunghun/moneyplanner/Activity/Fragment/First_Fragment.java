@@ -1,5 +1,6 @@
 package com.example.parkjunghun.moneyplanner.Activity.Fragment;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,6 +45,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class First_Fragment extends Fragment {
 
     private static final String TAG = "First_Fragment";
@@ -63,14 +66,17 @@ public class First_Fragment extends Fragment {
     private SimpleDateFormat dateFormatForYear = new SimpleDateFormat("yyyy", Locale.getDefault());
     private ArrayList<DetailMoneyInfo> dataList = new ArrayList<>();
 
-
     private ArrayList<String> eventDateList = new ArrayList<>();
     private ArrayList<Event> calendarEventList = new ArrayList<>();
 
     private boolean shouldShow = false;
     private String selectedDate;
+    private String day_select;
     private CalendarRecyclerviewAdapter adapter;
     private DetailMoneyInfo data;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public static First_Fragment newInstance2(DetailMoneyInfo detailMoneyInfo) {
         Bundle args = new Bundle();
@@ -89,14 +95,14 @@ public class First_Fragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         Log.e(TAG, "onactivitycreated");
         //getDate();
-
-
         adapter = new CalendarRecyclerviewAdapter(this, dataList);
         main_recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
         main_recyclerview.setAdapter(adapter);
+
+        sharedPreferences = getContext().getSharedPreferences("data", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         if (getArguments() != null) {
             //디비에 넣기
@@ -109,11 +115,15 @@ public class First_Fragment extends Fragment {
 
         //달력
         loadEvents(12, 2018);
-        compactCalendarView.invalidate();
+        //compactCalendarView.invalidate();
         //logEventsByMonth(compactCalendarView);
 
         compactCalendarView.setUseThreeLetterAbbreviation(false);
-        //compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+
+        day_select = sharedPreferences.getString("day_select","일요일").substring(0,1);
+
+        Days_Select(day_select);
+
         compactCalendarView.setIsRtl(false);
         compactCalendarView.displayOtherMonthDays(true);
 
@@ -125,7 +135,6 @@ public class First_Fragment extends Fragment {
                 Log.d(TAG, "clicked date-> " + dateFormatOnclick.format(dateClicked));
 
                 DatabaseManager.getInstance().getMoneyInfo(adapter, dateFormatOnclick.format(dateClicked));
-
                 //+버튼 눌럿을때 선택된 날짜 던져줌
                 selectedDate = dateFormatOnclick.format(dateClicked);
             }
@@ -167,16 +176,18 @@ public class First_Fragment extends Fragment {
     public void moveCalendar(Weekly_Update_Event event) {
         if (event.update.equals("true")) {
             compactCalendarView.scrollLeft();
-        } else {
+        } else if(event.update.equals("false")){
             compactCalendarView.scrollRight();
+        } else if(event.update.equals("update")){
+            loadEvents(event.month, event.year);
+            String a = sharedPreferences.getString("day_select","일요일").substring(0,1);
+            Days_Select(a);
         }
     }
 
     private void loadEvents(int month, int year) {
         Log.i(TAG, "loadEvents method... month-"+month+"year"+year);
-
         addEvents(month, year);
-
     }
 
     private void loadEventsForYear(int year) {
@@ -221,7 +232,6 @@ public class First_Fragment extends Fragment {
                 addeventlist.add(new Event(Color.argb(200, 100, 68, 65), timeInMillis));
             }
         }
-
         return addeventlist;
     }
 
@@ -292,6 +302,18 @@ public class First_Fragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "ondestroy");
+    }
+
+    public void Days_Select(String st){
+        switch (st){
+            case "일": compactCalendarView.setFirstDayOfWeek(Calendar.SUNDAY);       break;
+            case "월": compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);       break;
+            case "화": compactCalendarView.setFirstDayOfWeek(Calendar.TUESDAY);      break;
+            case "수": compactCalendarView.setFirstDayOfWeek(Calendar.WEDNESDAY);    break;
+            case "목": compactCalendarView.setFirstDayOfWeek(Calendar.THURSDAY);     break;
+            case "금": compactCalendarView.setFirstDayOfWeek(Calendar.FRIDAY);       break;
+            case "토": compactCalendarView.setFirstDayOfWeek(Calendar.SATURDAY);     break;
+        }
     }
 
 }

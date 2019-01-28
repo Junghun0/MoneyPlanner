@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
+import com.example.parkjunghun.moneyplanner.Activity.Fragment.First_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.SearchView_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("asd","Main.onCreate()");
+        Log.e("okok","Main.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -87,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         //intent = getIntent();
         //Log.e("asd",Integer.toString(getIntent().getIntExtra("position",2)));
         third_fragment = new Third_Fragment();
-
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this,third_fragment);
 
         viewPager.setAdapter(viewPagerAdapter);
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         getIntent().getStringExtra("test");
 
+
         //viewPager 가 바뀔때 발생�는 리스
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -113,15 +115,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
+                if(i==0){
+                    EventBus.getDefault().post(new Weekly_Update_Event("update",year,month));
+                }
                 if(i == 2){
                     String days[] = currentMonth.getText().toString().split(" ");
-                    //Log.e("Third_Fragment",days[0] + " " + days[1]);
                     String year[] = days[0].split("년");
                     String day[] = days[1].split("월");
-                    //Log.e("Third_Fragment",year[0] + " " + day[0]);
-                    //third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false);
-                    //Log.e("Third_Fragment",currentMonth.getText().toString());
-                    //�기�제 받아Date_update()�수 �출!;
+                    third_fragment.Date_Update(Integer.parseInt(year[0]),Integer.parseInt(day[0]),false,"default");
                 }
             }
 
@@ -268,4 +269,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
         finish();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
 }

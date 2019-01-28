@@ -5,11 +5,9 @@ import android.graphics.Color;
 import java.util.Calendar;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,9 +21,6 @@ import com.example.parkjunghun.moneyplanner.Activity.Model.DetailMoneyInfo;
 import com.example.parkjunghun.moneyplanner.Activity.Model.Weekly_Update_Event;
 import com.example.parkjunghun.moneyplanner.Activity.Util.DatabaseManager;
 import com.example.parkjunghun.moneyplanner.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -111,20 +106,17 @@ public class Third_Fragment extends Fragment {
             @Override
             public void onDateSelected(Calendar date, int position) {
                 if(date.get(Calendar.DAY_OF_MONTH) > 0){
-                    Log.e("okok","지금 불림");
-                    textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
                     String data = Integer.toString(date.get(Calendar.YEAR)) + Integer.toString(date.get(Calendar.MONTH)+1) + " " + Integer.toString(date.get(Calendar.DAY_OF_MONTH));
                     DatabaseManager.getInstance().getScheduleMoneyInfo(Inadapter,Outadapter,data,horizontalCalendar,view);
+                    textView.setText(date.get(Calendar.YEAR) + "년 " + Integer.toString(date.get(Calendar.MONTH)+1) + "월");
                 }
             }
         });
-
         return view;
     }
 
     @OnClick(R.id.InChange)
     public void OnInChange(){
-        //Inadapter.subItem(0);
         Incheck++;
         Inadapter.isShow(Incheck);
         Inadapter.notifyDataSetChanged();
@@ -134,7 +126,6 @@ public class Third_Fragment extends Fragment {
 
     @OnClick(R.id.OutChange)
     public void OnOutChange(){
-       // Outadapter.subItem(0);
         Outcheck++;
         Outadapter.isShow(Outcheck);
         Outadapter.notifyDataSetChanged();
@@ -143,16 +134,33 @@ public class Third_Fragment extends Fragment {
     }
 
     //중요한 함수임!
-    public void Date_Update(int year, int month, boolean check){
+    public void Date_Update(int year, int month, boolean check,String index1){
+        Log.e("okok",index1);
         if(check == true){
-//            Log.e("Third_Fragment","여기들어옴");
+            String in[] = index1.split(" ");
+            String sum = Integer.toString(year) + "-" + Integer.toString(month);
+            // in[0] -> 수출, 수입
+            // in[1] -> DB
+            // in[2] -> index
+            // in[3] -> key
+            if(in[0].equals("수입")){
+                DatabaseManager.getInstance().deleteScheduleMoneyInfo(Inadapter,in[0],Integer.parseInt(in[2]),in[3],sum,view);
+            } else if(in[0].equals("수출")){
+                DatabaseManager.getInstance().deleteScheduleMoneyInfo(Outadapter,in[0],Integer.parseInt(in[2]),in[3],sum,view);
+            }
         }else{
             Calendar startC = Calendar.getInstance();
             startC.set(Calendar.YEAR,year);
-            if(month-1 != startC.get(Calendar.MONTH)){
+            startC.set(Calendar.MONTH,month-1);
+            startC.set(Calendar.DAY_OF_MONTH,30);
+            /*Outadapter.isShow(2);
+            Inadapter.isShow(2);
+            Inadapter.notifyDataSetChanged();
+            Outadapter.notifyDataSetChanged();*/
+            /*if(month-1 != startC.get(Calendar.MONTH)){
                 startC.set(Calendar.MONTH,month-1);
                 startC.set(Calendar.DAY_OF_MONTH,1);
-            }
+            } else*/
             horizontalCalendar.selectDate(startC,true);
             //horizontalCalendar.setRange(startC,endC);
             horizontalCalendar.refresh();
@@ -161,20 +169,16 @@ public class Third_Fragment extends Fragment {
 
     @Subscribe
     public void testEvent(Weekly_Update_Event event) {
-        /*Inadapter.notifyDataSetChanged();
-        Outadapter.notifyDataSetChanged();*/
-        if(event.update.startsWith("DB")){
-            String data[] = event.update.split(" ");
-            if(data[1].equals("수입")){
-                Inadapter.subItem(Integer.parseInt(data[2]));
-                Inadapter.notifyDataSetChanged();
-            } else if(data[1].equals("수출")){
-                Outadapter.subItem(Integer.parseInt(data[2]));
-                Outadapter.notifyDataSetChanged();
-            }
-        } else {
-            Date_Update(event.year, event.month, false);
+        if(event.update.startsWith("수입") || event.update.startsWith("수출")){
+            Date_Update(event.year, event.month, true,event.update);
+        }else {
+            Date_Update(event.year, event.month, false,"default");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -189,5 +193,4 @@ public class Third_Fragment extends Fragment {
     public void onStop() {
         super.onStop();
     }
-
 }

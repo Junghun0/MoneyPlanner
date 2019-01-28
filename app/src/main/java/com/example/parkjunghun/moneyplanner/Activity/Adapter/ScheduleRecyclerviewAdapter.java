@@ -126,18 +126,14 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
 
     public void setItem(ArrayList<DetailMoneyInfo> dataList) {
         this.arrayList = dataList;
-        notifyDataSetChanged();
     }
 
     public void subItem(int index) {
         arrayList.remove(index);
-        notifyItemRemoved(index);
-        notifyDataSetChanged();
     }
 
     public void clearItem(){
         arrayList.clear();
-        notifyDataSetChanged();
     }
 
     public void isShow(int check){
@@ -147,4 +143,5 @@ public class ScheduleRecyclerviewAdapter extends RecyclerView.Adapter<ScheduleRe
             isCheck = true;
         }
     }
+
 }

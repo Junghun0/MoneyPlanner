@@ -6,7 +6,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.example.parkjunghun.moneyplanner.R;
 
@@ -53,54 +52,54 @@ public class CustomPaymentDialog {
 
         dialog.show();
 
-        //신용카드 선택
-        dialog_selected_card.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
-                    //체크되있을때
-
-                }else{
-
-                }
-            }
-        });
-
-        //현금선택
-        dialog_selected_cash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
-
-                }else{
-
-                }
-            }
-        });
-
-        //체크카드 선택
-        dialog_selected_checkcard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
-
-                }else{
-
-                }
-            }
-        });
-
-        //모두 선택
-        dialog_selected_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
-
-                }else{
-
-                }
-            }
-        });
+//        //신용카드 선택
+//        dialog_selected_card.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(buttonView.isChecked()){
+//                    //체크되있을때
+//
+//                }else{
+//
+//                }
+//            }
+//        });
+//
+//        //현금선택
+//        dialog_selected_cash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(buttonView.isChecked()){
+//
+//                }else{
+//
+//                }
+//            }
+//        });
+//
+//        //체크카드 선택
+//        dialog_selected_checkcard.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(buttonView.isChecked()){
+//
+//                }else{
+//
+//                }
+//            }
+//        });
+//
+//        //모두 선택
+//        dialog_selected_all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(buttonView.isChecked()){
+//
+//                }else{
+//
+//                }
+//            }
+//        });
     }
 
     @OnClick(R.id.dialog_ok_btn)

@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -23,11 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.ViewPagerAdapter;
-import com.example.parkjunghun.moneyplanner.Activity.Fragment.First_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.SearchView_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Fragment.Third_Fragment;
 import com.example.parkjunghun.moneyplanner.Activity.Model.CalendarScrollEvent;
@@ -37,7 +31,9 @@ import com.example.parkjunghun.moneyplanner.R;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,10 +93,11 @@ public class MainActivity extends AppCompatActivity {
         //�자마자 4개의 미리 로딩�주�수
         viewPager.setOffscreenPageLimit(4);
 
-        tabLayout.getTabAt(0).setText("월간");
-        tabLayout.getTabAt(1).setText("주간");
-        tabLayout.getTabAt(2).setText("일간");
-        tabLayout.getTabAt(3).setText("결산");
+        tabLayout.getTabAt(0).setCustomView(R.layout.first_custom_tab);
+        tabLayout.getTabAt(1).setCustomView(R.layout.second_custom_tab);
+        tabLayout.getTabAt(2).setCustomView(R.layout.third_custom_tab);
+        tabLayout.getTabAt(3).setCustomView(R.layout.fourth_custom_tab);
+
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         getIntent().getStringExtra("test");

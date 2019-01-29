@@ -341,6 +341,13 @@ public class DatabaseManager {
         searchRecyclerViewAdapter.notifyDataSetChanged();
         final ArrayList<Integer> incomesumlist = new ArrayList<>();
         final ArrayList<Integer> spendsumlist = new ArrayList<>();
+
+        income_sumtxtview = view.findViewById(R.id.income_sumtxtview);
+        spend_sumtxtview = view.findViewById(R.id.spend_sumtxtview);
+
+        income_sumtxtview.setText(null);
+        spend_sumtxtview.setText(null);
+
         for (int i = 0; i < keydata.size(); i++) {
             usinginfo_databaseReference.child(key).child(keydata.get(i)).addChildEventListener(new ChildEventListener() {
                 @Override
@@ -363,8 +370,7 @@ public class DatabaseManager {
                     for(int i=0 ; i<spendsumlist.size();i++){
                         spendSum += spendsumlist.get(i);
                     }
-                    income_sumtxtview = view.findViewById(R.id.income_sumtxtview);
-                    spend_sumtxtview = view.findViewById(R.id.spend_sumtxtview);
+
                     income_sumtxtview.setText(String.valueOf(inComeSum));
                     spend_sumtxtview.setText(String.valueOf(spendSum));
 
@@ -402,6 +408,13 @@ public class DatabaseManager {
         searchRecyclerViewAdapter.notifyDataSetChanged();
         final ArrayList<Integer> incomesumlist = new ArrayList<>();
         final ArrayList<Integer> spendsumlist = new ArrayList<>();
+
+        income_sumtxtview = view.findViewById(R.id.income_sumtxtview);
+        spend_sumtxtview = view.findViewById(R.id.spend_sumtxtview);
+
+        income_sumtxtview.setText(null);
+        spend_sumtxtview.setText(null);
+
         usinginfo_databaseReference.child(key).child(keyvalue[0]+keyvalue[1]).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -422,8 +435,7 @@ public class DatabaseManager {
                 for(int i=0 ; i<spendsumlist.size();i++){
                     spendSum += spendsumlist.get(i);
                 }
-                income_sumtxtview = view.findViewById(R.id.income_sumtxtview);
-                spend_sumtxtview = view.findViewById(R.id.spend_sumtxtview);
+
                 income_sumtxtview.setText(String.valueOf(inComeSum));
                 spend_sumtxtview.setText(String.valueOf(spendSum));
 
@@ -458,6 +470,12 @@ public class DatabaseManager {
         searchRecyclerViewAdapter.notifyDataSetChanged();
         final ArrayList<Integer> incomesumlist = new ArrayList<>();
         final ArrayList<Integer> spendsumlist = new ArrayList<>();
+        income_sumtxtview = view.findViewById(R.id.income_sumtxtview);
+        spend_sumtxtview = view.findViewById(R.id.spend_sumtxtview);
+
+        income_sumtxtview.setText(null);
+        spend_sumtxtview.setText(null);
+
         Log.e("search db foramt",""+firstdate.length);
         Log.e("search db foramt",""+lastdate.length);
         usinginfo_databaseReference.child(key).child(keyvalue[0]+keyvalue[1]).orderByKey().startAt(firstdate[2]).endAt(lastdate[2]).addChildEventListener(new ChildEventListener() {
@@ -480,8 +498,7 @@ public class DatabaseManager {
                 for(int i=0 ; i<spendsumlist.size();i++){
                     spendSum += spendsumlist.get(i);
                 }
-                income_sumtxtview = view.findViewById(R.id.income_sumtxtview);
-                spend_sumtxtview = view.findViewById(R.id.spend_sumtxtview);
+
                 income_sumtxtview.setText(String.valueOf(inComeSum));
                 spend_sumtxtview.setText(String.valueOf(spendSum));
 

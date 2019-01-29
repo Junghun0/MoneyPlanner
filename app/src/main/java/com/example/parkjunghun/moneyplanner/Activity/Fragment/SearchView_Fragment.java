@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -63,6 +64,8 @@ public class SearchView_Fragment extends Fragment {
     private Calendar firstdate = Calendar.getInstance();
     private Calendar lastdate = Calendar.getInstance();
     private Calendar saturday = Calendar.getInstance();
+
+    InputMethodManager inputMethodManager;
 
     public SearchView_Fragment() {
     }
@@ -137,6 +140,7 @@ public class SearchView_Fragment extends Fragment {
 
         SearchManager searchManager = (SearchManager)getActivity().getSystemService(Context.SEARCH_SERVICE);
         main_searchView.onActionViewExpanded();
+        main_searchView.setIconified(false);
 
 
 

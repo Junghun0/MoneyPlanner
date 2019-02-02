@@ -24,6 +24,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
+                android:layout_marginLeft="3dp"
                 android:layout_weight="0.25"/>
 
             <ImageView
@@ -31,6 +32,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
                 android:layout_weight="0.25" />
 
             <LinearLayout

@@ -35,12 +35,65 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, int i) {
         DetailMoneyInfo detailMoneyInfo = dataList.get(i);
-        searchViewHolder.search_moneyinfo_txtview.setText(String.valueOf(detailMoneyInfo.getUsingMoney()));
+
+        searchViewHolder.search_moneyinfo_txtview.setText(String.valueOf(detailMoneyInfo.getUsingMoney()) +" 원");
         searchViewHolder.search_dayinfo_txtview.setText(detailMoneyInfo.getSelectDate());
         if(detailMoneyInfo.getType().equals("수입")){
             searchViewHolder.search_moneyinfo_txtview.setTextColor(Color.rgb(0,120,189));
+
+            if(detailMoneyInfo.getImgUrl() != null){
+
+                if(detailMoneyInfo.getImgUrl().equals("img1")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn1);
+                }else if(detailMoneyInfo.getImgUrl().equals("img2")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn2);
+                }else if(detailMoneyInfo.getImgUrl().equals("img3")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn3);
+                }else if(detailMoneyInfo.getImgUrl().equals("img4")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn4);
+                }
+
+            }
         }else{
             searchViewHolder.search_moneyinfo_txtview.setTextColor(Color.rgb(223,110,80));
+
+
+            if(detailMoneyInfo.getImgUrl() != null){
+
+                if(detailMoneyInfo.getImgUrl().equals("img1")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn1);
+                }else if(detailMoneyInfo.getImgUrl().equals("img2")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn2);
+                }else if(detailMoneyInfo.getImgUrl().equals("img3")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn3);
+                }else if(detailMoneyInfo.getImgUrl().equals("img4")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn4);
+                }else if(detailMoneyInfo.getImgUrl().equals("img5")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn5);
+                }else if(detailMoneyInfo.getImgUrl().equals("img6")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn6);
+                }else if(detailMoneyInfo.getImgUrl().equals("img7")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn7);
+                }else if(detailMoneyInfo.getImgUrl().equals("img8")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn8);
+                }else if(detailMoneyInfo.getImgUrl().equals("img9")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn9);
+                }else if(detailMoneyInfo.getImgUrl().equals("img10")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn10);
+                }else if(detailMoneyInfo.getImgUrl().equals("img11")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn11);
+                }else if(detailMoneyInfo.getImgUrl().equals("img12")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn12);
+                }else if(detailMoneyInfo.getImgUrl().equals("img13")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn13);
+                }else if(detailMoneyInfo.getImgUrl().equals("img14")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn14);
+                }else if(detailMoneyInfo.getImgUrl().equals("img15")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn15);
+                }else if(detailMoneyInfo.getImgUrl().equals("img16")){
+                    searchViewHolder.search_info_imgview.setImageResource(R.drawable.btn16);
+                }
+            }
         }
     }
 

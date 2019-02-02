@@ -12,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.parkjunghun.moneyplanner.Activity.Adapter.SearchRecyclerViewAdapter;
@@ -52,6 +54,8 @@ public class SearchView_Fragment extends Fragment {
     TextView spend_sumtxtview;
     @BindView(R.id.main_searchView)
     android.support.v7.widget.SearchView main_searchView;
+    @BindView(R.id.searchview_mainlinear)
+    LinearLayout searchview_mainlinear;
 
     private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
     private ArrayList<DetailMoneyInfo> searchData = new ArrayList<>();
@@ -75,6 +79,10 @@ public class SearchView_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.searchview_layout, container, false);
         ButterKnife.bind(this, view);
+        //키보드
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        inputMethodManager = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+
         searchdate_txtview.setText("전체 날짜");
 
         searchview_tablayout.addTab(searchview_tablayout.newTab().setText("전체"));
@@ -147,6 +155,11 @@ public class SearchView_Fragment extends Fragment {
         return view;
     }
 
+    @OnClick(R.id.searchview_mainlinear)
+    public void hideKeyboard(){
+        inputMethodManager.hideSoftInputFromWindow(main_searchView.getWindowToken(), 0);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -155,7 +168,7 @@ public class SearchView_Fragment extends Fragment {
 
     @OnClick(R.id.search_setcategory_txtview)
     public void setCategoryOnclick(){
-        CustomDialog dialog = new CustomDialog(getActivity());
+        CustomDialog dialog = new CustomDialog(getContext());
         dialog.callMethod();
     }
 

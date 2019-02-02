@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="내역선택 및 입력" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,261 +25,7 @@
             android:weightSum="4">
 
             <ImageButton
-                android:id="@+id/income_btn1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn1"/>
-
-            <ImageButton
-                android:id="@+id/income_btn2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn2" />
-
-            <ImageButton
-                android:id="@+id/income_btn3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:src="@drawable/btn3"
-                android:background="@null"/>
-
-            <ImageButton
-                android:id="@+id/income_btn4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn4"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="4">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="교통"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="쇼핑"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="교육"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="저축"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:weightSum="4">
-
-            <ImageButton
-                android:id="@+id/income_btn5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn5"
-                />
-
-            <ImageButton
-                android:id="@+id/income_btn6"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn6" />
-
-            <ImageButton
-                android:id="@+id/income_btn7"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:src="@drawable/btn7"
-                android:background="@null"/>
-
-            <ImageButton
-                android:id="@+id/income_btn8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn8"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="4">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="통신"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="식비"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="의료"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="생활비"
-                android:textSize="11sp"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:weightSum="4">
-
-            <ImageButton
-                android:id="@+id/income_btn9"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn9"
-                />
-
-            <ImageButton
-                android:id="@+id/income_btn10"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn10" />
-
-            <ImageButton
-                android:id="@+id/income_btn11"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:src="@drawable/btn11"
-                android:background="@null"/>
-
-            <ImageButton
-                android:id="@+id/income_btn12"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:src="@drawable/btn12"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="4">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="미용"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="여행"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="문화"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="11sp"
-                android:text="주거"
-                android:layout_weight="1"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:weightSum="4">
-
-            <ImageButton
-                android:id="@+id/income_btn13"
+                android:id="@+id/spend_btn1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
@@ -290,7 +35,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/income_btn14"
+                android:id="@+id/spend_btn2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
@@ -299,7 +44,7 @@
                 android:src="@drawable/btn14" />
 
             <ImageButton
-                android:id="@+id/income_btn15"
+                android:id="@+id/spend_btn3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
@@ -308,7 +53,7 @@
                 android:background="@null"/>
 
             <ImageButton
-                android:id="@+id/income_btn16"
+                android:id="@+id/spend_btn4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="3dp"
@@ -329,7 +74,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="11sp"
-                android:text="세금"/>
+                android:text="월급"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -337,7 +82,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="11sp"
-                android:text="취미"/>
+                android:text="용돈"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -345,18 +90,17 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="11sp"
-                android:text="보험"/>
+                android:text="이월"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="월급"
+                android:text="기타"
                 android:textSize="11sp"
                 android:layout_weight="1"/>
 
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

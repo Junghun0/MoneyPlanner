@@ -34,41 +34,17 @@ public class Add_Secondincome_Fragment extends Fragment {
     @BindView(R.id.second_add_edittext)
     EditText second_add_edittext;
 
+    @BindView(R.id.spend_btn1)
+    ImageButton spend_btn1;
+    @BindView(R.id.spend_btn2)
+    ImageButton spend_btn2;
+    @BindView(R.id.spend_btn3)
+    ImageButton spend_btn3;
+    @BindView(R.id.spend_btn4)
+    ImageButton spend_btn4;
+
     @BindView(R.id.add_second_linear)
     LinearLayout add_second_linear;
-    @BindView(R.id.income_btn1)
-    ImageButton income_btn1;
-    @BindView(R.id.income_btn2)
-    ImageButton income_btn2;
-    @BindView(R.id.income_btn3)
-    ImageButton income_btn3;
-    @BindView(R.id.income_btn4)
-    ImageButton income_btn4;
-    @BindView(R.id.income_btn5)
-    ImageButton income_btn5;
-    @BindView(R.id.income_btn6)
-    ImageButton income_btn6;
-    @BindView(R.id.income_btn7)
-    ImageButton income_btn7;
-    @BindView(R.id.income_btn8)
-    ImageButton income_btn8;
-    @BindView(R.id.income_btn9)
-    ImageButton income_btn9;
-    @BindView(R.id.income_btn10)
-    ImageButton income_btn10;
-    @BindView(R.id.income_btn11)
-    ImageButton income_btn11;
-    @BindView(R.id.income_btn12)
-    ImageButton income_btn12;
-    @BindView(R.id.income_btn13)
-    ImageButton income_btn13;
-    @BindView(R.id.income_btn14)
-    ImageButton income_btn14;
-    @BindView(R.id.income_btn15)
-    ImageButton income_btn15;
-    @BindView(R.id.income_btn16)
-    ImageButton income_btn16;
-
 
     private DetailMoneyInfo data;
     private String data_key;
@@ -92,7 +68,6 @@ public class Add_Secondincome_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.add_secondincome_fragment_layout, container, false);
         data_key = FirebaseDatabase.getInstance().getReference().push().getKey();
         ButterKnife.bind(this, view);
-        Log.e("First_Fragment","add_secondincome_first oncreateview......");
         if(getArguments() != null){
             usingmoney = getArguments().getInt("usingmoney");
             selectDate = getArguments().getString("selectDate");
@@ -110,23 +85,25 @@ public class Add_Secondincome_Fragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(second_add_edittext.getWindowToken(), 0);
     }
 
-    @OnClick(R.id.income_btn1)
+    @OnClick(R.id.spend_btn1)
     public void onClickbtn1(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img1");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-    }
+    data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img1");
+    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+    fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
 
-    @OnClick(R.id.income_btn2)
+}
+
+    @OnClick(R.id.spend_btn2)
     public void onClickbtn2(){
         data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img2");
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
+
     }
 
-    @OnClick(R.id.income_btn3)
+    @OnClick(R.id.spend_btn3)
     public void onClickbtn3(){
         data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img3");
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -135,7 +112,7 @@ public class Add_Secondincome_Fragment extends Fragment {
 
     }
 
-    @OnClick(R.id.income_btn4)
+    @OnClick(R.id.spend_btn4)
     public void onClickbtn4(){
         data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img4");
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -143,114 +120,6 @@ public class Add_Secondincome_Fragment extends Fragment {
         fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
 
     }
-    @OnClick(R.id.income_btn5)
-    public void onClickbtn5(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img5");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn6)
-    public void onClickbtn6(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img6");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn7)
-    public void onClickbtn7(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img7");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn8)
-    public void onClickbtn8(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img8");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn9)
-    public void onClickbtn9(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img9");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn10)
-    public void onClickbtn10(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img10");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn11)
-    public void onClickbtn11(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img11");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn12)
-    public void onClickbtn12(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img12");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn13)
-    public void onClickbtn13(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img13");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn14)
-    public void onClickbtn14(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img14");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn15)
-    public void onClickbtn15(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img15");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
-    @OnClick(R.id.income_btn16)
-    public void onClickbtn16(){
-        data = new DetailMoneyInfo(data_key,"수입",selectDate,usingmoney,"img16");
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_view2, First_Fragment.newInstance2(data)).commit();
-
-    }
-
 
 
 

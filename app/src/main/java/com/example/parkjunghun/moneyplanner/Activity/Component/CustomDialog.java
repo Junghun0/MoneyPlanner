@@ -25,7 +25,7 @@ public class CustomDialog {
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         Window window = dialog.getWindow();
         window.setAttributes(lp);
